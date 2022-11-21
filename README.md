@@ -1,7 +1,7 @@
 # NFT_Trading_Market
 * Neelakanta Bhagavatula : ID# 015261909
 * Rodrigo Colasso Teixeira : ID# 015954146
-* Siddhi Chaturvedi : ID# 
+* Siddhi Chaturvedi : ID# 015258568
 * Viswamithra Vallabhaneni : ID# 
 
 ## Project Description
