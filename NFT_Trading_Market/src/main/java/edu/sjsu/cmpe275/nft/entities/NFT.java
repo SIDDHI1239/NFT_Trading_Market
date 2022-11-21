@@ -1,11 +1,18 @@
 package edu.sjsu.cmpe275.nft.entities;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "NFT")
@@ -35,6 +42,15 @@ public class NFT {
 	
 	@Column(name = "ASSET_URL")
 	private String assetUrl;
+	
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "USER_ID")
+	private User user;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "nft")
+	private List<Sale> sales;
 
 	public String getId() {
 		return id;
@@ -98,6 +114,22 @@ public class NFT {
 
 	public void setAssetUrl(String assetUrl) {
 		this.assetUrl = assetUrl;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Sale> getSales() {
+		return sales;
+	}
+
+	public void setSales(List<Sale> sales) {
+		this.sales = sales;
 	}
 
 }
