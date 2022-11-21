@@ -20,8 +20,8 @@ public class Wallet {
 	@Column(name = "WALLET_ID")
 	private int id;
 	
-	@Column(name = "CURRENCY_TYPE")
-	private String currencyType;
+//	@Column(name = "CURRENCY_TYPE")
+//	private String currencyType;
 	
 	@Column(name = "BALANCE")
 	private float balance;
@@ -44,13 +44,13 @@ public class Wallet {
 		this.id = id;
 	}
 
-	public String getCurrencyType() {
-		return currencyType;
-	}
-
-	public void setCurrencyType(String currencyType) {
-		this.currencyType = currencyType;
-	}
+//	public String getCurrencyType() {
+//		return currencyType;
+//	}
+//
+//	public void setCurrencyType(String currencyType) {
+//		this.currencyType = currencyType;
+//	}
 
 	public float getBalance() {
 		return balance;

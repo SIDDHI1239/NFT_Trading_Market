@@ -26,7 +26,7 @@ public class Cryptocurrency {
 	
 	@JsonBackReference
 	@ManyToOne
-	@JoinColumn(name = "CURRENCY_TYPE")
+	@JoinColumn(name = "SALE_ID")
 	private Sale sale;
 	
 	@JsonManagedReference
