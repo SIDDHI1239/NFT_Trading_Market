@@ -2,14 +2,38 @@ package edu.sjsu.cmpe275.nft.entities;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "SALE_BID")
 public class Bid {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "BID_ID")
 	private int id;
+	
+	@Column(name = "SALE_ID")
 	private int saleId;
+	
+	@Column(name = "BID_TIME")
 	private Timestamp bidTime;
+	
+	@Column(name = "BIDDER_ID")
 	private int bidderId;
+	
+	@Column(name = "BID_VALUE")
 	private float bidValue;
+	
+	@Column(name = "EXPIRATION_TIME")
 	private Timestamp expirationTime;
+	
+	@Column(name = "WAS_ACCEPTED")
 	private Timestamp wasAccepted;
 
 	public int getId() {

@@ -2,18 +2,50 @@ package edu.sjsu.cmpe275.nft.entities;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "SALE")
 public class Sale {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "SALE_ID")
 	private int id;
+	
+	@Column(name = "TYPE")
 	private char type;
+	
+	@Column(name = "TOKEN_ID")
 	private String tokenId;
+	
+	@Column(name = "SELLER_ID")
 	private int sellerId;
+	
+	@Column(name = "SYMBOL")
 	private String symbol;
+	
+	@Column(name = "EXPECTED_VALUE")
 	private float expectedValue;
+	
+	@Column(name = "RECEIVED_VALUE")
 	private float receivedValue;
+	
+	@Column(name = "CREATION_TIME")
 	private Timestamp creationTime;
+	
+	@Column(name = "CLOSING_TIME")
 	private Timestamp closingTime;
+	
+	@Column(name = "BID_TIME")
 	private Timestamp bidTime;
+	
+	@Column(name = "BUYER_ID")
 	private int buyerId;
 
 	public int getId() {

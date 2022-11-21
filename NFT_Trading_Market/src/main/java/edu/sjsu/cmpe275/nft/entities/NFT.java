@@ -2,15 +2,38 @@ package edu.sjsu.cmpe275.nft.entities;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "NFT")
 public class NFT {
 
+	@Id
+	@Column(name = "NFT_ID")
 	private String id;
+	
+	@Column(name = "SMART_CONTRACT_ADDRESS")
 	private String smartContractAddress;
+	
+	@Column(name = "LAST_RECORDED_DATE")
 	private Timestamp lastRecordedDate;
+	
+	@Column(name = "NAME")
 	private String name;
+	
+	@Column(name = "TYPE")
 	private String type;
+	
+	@Column(name = "DESCRIPTION")
 	private String description;
+	
+	@Column(name = "IMAGE_URL")
 	private String imageUrl;
+	
+	@Column(name = "ASSET_URL")
 	private String assetUrl;
 
 	public String getId() {
