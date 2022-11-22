@@ -19,8 +19,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class NFT {
 
 	@Id
-	@Column(name = "NFT_ID")
-	private String id;
+	@Column(name = "TOKEN_ID")
+	private String tokenId;
 	
 	@Column(name = "SMART_CONTRACT_ADDRESS")
 	private String smartContractAddress;

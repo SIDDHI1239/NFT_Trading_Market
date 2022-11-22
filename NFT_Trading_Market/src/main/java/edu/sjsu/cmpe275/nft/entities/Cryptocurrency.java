@@ -18,19 +18,18 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class Cryptocurrency {
 
 	@Id
-	@Column(name = "CURRENCY_TYPE")
-	private String currencyType;
+	@Column(name = "SYMBOL")
+	private String symbol;
 	
 	@Column(name = "NAME")
 	private String name;
 	
 	@JsonBackReference
-	@ManyToOne
-	@JoinColumn(name = "SALE_ID")
-	private Sale sale;
+	@OneToMany(mappedBy = "cryptocurrency")
+	private List<Sale> sales;
 	
 	@JsonManagedReference
-	@OneToMany(mappedBy = "currency")
+	@OneToMany(mappedBy = "cryptocurrency")
 	private List<Wallet> wallets;
 
 	public String getCurrencyType() {
@@ -49,12 +48,12 @@ public class Cryptocurrency {
 		this.name = name;
 	}
 
-	public Sale getSale() {
-		return sale;
+	public List<Sale> getSale() {
+		return sales;
 	}
 
-	public void setSale(Sale sale) {
-		this.sale = sale;
+	public void setSale(List<Sale> sales) {
+		this.sales = sales;
 	}
 
 	public List<Wallet> getWallets() {

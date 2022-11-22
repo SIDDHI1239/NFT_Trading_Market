@@ -26,19 +26,14 @@ public class Sale {
 	private int id;
 	
 	@Column(name = "TYPE")
-	private char type;
-	
-	@Column(name = "TOKEN_ID")
-	private String tokenId;
-	
-	@Column(name = "SYMBOL")
-	private String symbol;
+	@Enumerated(EnumType.ORDINAL)
+	private SalesType type;
 	
 	@Column(name = "EXPECTED_VALUE")
-	private float expectedValue;
+	private double expectedValue;
 	
 	@Column(name = "RECEIVED_VALUE")
-	private float receivedValue;
+	private double receivedValue;
 	
 	@Column(name = "CREATION_TIME")
 	private Timestamp creationTime;
@@ -46,26 +41,26 @@ public class Sale {
 	@Column(name = "CLOSING_TIME")
 	private Timestamp closingTime;
 	
-	@Column(name = "BID_TIME")
-	private Timestamp bidTime;
-	
-	@Column(name = "BUYER_ID")
-	private int buyerId;
-	
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "USER_ID")
-	private User user;
+	private User seller;
+
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "USER_ID")
+	private User buyer;
 	
 	@JsonBackReference
 	@ManyToOne
-	@JoinColumn(name = "NFT_ID")
+	@JoinColumn(name = "TOKEN_ID")
 	private NFT nft;
-	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "sale")
-	private List<Cryptocurrency> currency;
 
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "SYMBOL")
+	private Cryptocurrency cryptocurrency;
+	
 	public int getId() {
 		return id;
 	}
@@ -74,28 +69,12 @@ public class Sale {
 		this.id = id;
 	}
 
-	public char getType() {
+	public SalesType getType() {
 		return type;
 	}
 
-	public void setType(char type) {
+	public void setType(SalesType type) {
 		this.type = type;
-	}
-
-	public String getTokenId() {
-		return tokenId;
-	}
-
-	public void setTokenId(String tokenId) {
-		this.tokenId = tokenId;
-	}
-
-	public String getSymbol() {
-		return symbol;
-	}
-
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
 	}
 
 	public float getExpectedValue() {
@@ -130,30 +109,22 @@ public class Sale {
 		this.closingTime = closingTime;
 	}
 
-	public Timestamp getBidTime() {
-		return bidTime;
+	public User getSeller() {
+		return seller;
 	}
 
-	public void setBidTime(Timestamp bidTime) {
-		this.bidTime = bidTime;
+	public void setSeller(User seller) {
+		this.seller = seller;
 	}
 
-	public int getBuyerId() {
-		return buyerId;
+	public User getBuyer() {
+		return buyer;
 	}
 
-	public void setBuyerId(int buyerId) {
-		this.buyerId = buyerId;
+	public void setBuyer(User buyer) {
+		this.buyer = buyer;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
+	
 	public NFT getNft() {
 		return nft;
 	}
@@ -162,12 +133,12 @@ public class Sale {
 		this.nft = nft;
 	}
 
-	public List<Cryptocurrency> getCurrency() {
-		return currency;
+	public Cryptocurrency getCryptocurrency() {
+		return cryptocurrency;
 	}
 
-	public void setCurrency(List<Cryptocurrency> currency) {
-		this.currency = currency;
+	public void setCryptocurrency(Cryptocurrency cryptocurrency) {
+		this.cryptocurrency = cryptocurrency;
 	}
 
 }

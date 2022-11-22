@@ -13,52 +13,22 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "CRYPTOCURRENCY_WALLET")
+@IdClass(WalletId.class)
 public class Wallet {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "WALLET_ID")
-	private int id;
-	
-//	@Column(name = "CURRENCY_TYPE")
-//	private String currencyType;
-	
 	@Column(name = "BALANCE")
 	private float balance;
 	
-	@JsonBackReference
 	@ManyToOne
-	@JoinColumn(name = "USER_ID")
+	@JoinColumn(name = "WALLET_ID", referencedColumnName= "id")
 	private User user;
 	
-	@JsonBackReference
 	@ManyToOne
-	@JoinColumn(name = "CURRENCY_TYPE")
+	@JoinColumn(name = "SYMBOL")
 	private Cryptocurrency currency;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-//	public String getCurrencyType() {
-//		return currencyType;
-//	}
-//
-//	public void setCurrencyType(String currencyType) {
-//		this.currencyType = currencyType;
-//	}
-
-	public float getBalance() {
-		return balance;
-	}
-
-	public void setBalance(float balance) {
-		this.balance = balance;
-	}
+	@Column(name = "BALANCE")
+	private double balance;
 
 	public User getUser() {
 		return user;
@@ -74,6 +44,14 @@ public class Wallet {
 
 	public void setCurrency(Cryptocurrency currency) {
 		this.currency = currency;
+	}
+
+	public float getBalance() {
+		return balance;
+	}
+
+	public void setBalance(float balance) {
+		this.balance = balance;
 	}
 
 }
