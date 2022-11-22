@@ -62,10 +62,10 @@ public class User {
 	private List<Sale> sales;
 
 	@JsonBackReference
-	@ManyToMany
-	@JoinTable(name = "user_salebid",
-	joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") },
-	inverseJoinColumns = {@JoinColumn(name = "BID_ID", referencedColumnName = "BID_ID") })
+	@OneToMany(mappedBy = "user")
+//	@JoinTable(name = "user_salebid",
+//	joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") },
+//	inverseJoinColumns = {@JoinColumn(name = "BID_ID", referencedColumnName = "BID_ID") })
 	private List<Bid> bids;
 
 	public int getId() {
