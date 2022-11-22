@@ -15,4 +15,20 @@ public class UserController {
 		LOG.info("Executing getHome() << ");
 		return "home";
 	}
+	
+	@GetMapping("/Profile")
+	public String getProfile() {
+		
+		String userName = "Mithra";
+		System.out.println("In getProfile");
+		return "Profile";
+		
+	}
+	
+	@GetMapping("/SellNFT")
+	public String sellNFT() {
+		System.out.println("In SellNFT");
+		return "SellNFT";
+		
+	}
 }
