@@ -8,7 +8,7 @@
 
 ### Database Diagram
 
-![CMPE275 - Term project](https://user-images.githubusercontent.com/62269628/202772537-b8b3e430-8a78-43a3-8dcd-8e3b298daa97.png)
+![CMPE275 - Term project](https://user-images.githubusercontent.com/62269628/203390543-be549483-06f4-48b7-ab3d-a1b6309d272f.png)
 
 ### Use cases
 
