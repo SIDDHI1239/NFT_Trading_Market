@@ -23,6 +23,7 @@ public class Wallet {
 	
 	@ManyToOne
 	@JoinColumn(name = "SYMBOL")
+	@Column(name = "SYMBOL")
 	private Cryptocurrency currency;
 
 	@Column(name = "BALANCE")

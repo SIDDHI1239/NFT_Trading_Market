@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -23,29 +24,29 @@ public class Bid {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "BID_ID")
 	private int id;
-	
-	@Column(name = "SALE_ID")
-	private int saleId;
-	
+
 	@Column(name = "BID_TIME")
 	private Timestamp bidTime;
-	
-	@Column(name = "BIDDER_ID")
-	private int bidderId;
-	
+
 	@Column(name = "BID_VALUE")
 	private float bidValue;
-	
+
 	@Column(name = "EXPIRATION_TIME")
 	private Timestamp expirationTime;
-	
+
 	@Column(name = "WAS_ACCEPTED")
-	private Timestamp wasAccepted;
-	
-	@JsonManagedReference
+	private boolean wasAccepted;
+
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "USER_ID")
+	@Column(name = "BIDDER_ID")
 	private User user;
+
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "SALE_ID")
+	private Sale sale;
 
 	public int getId() {
 		return id;
@@ -55,28 +56,12 @@ public class Bid {
 		this.id = id;
 	}
 
-	public int getSaleId() {
-		return saleId;
-	}
-
-	public void setSaleId(int saleId) {
-		this.saleId = saleId;
-	}
-
 	public Timestamp getBidTime() {
 		return bidTime;
 	}
 
 	public void setBidTime(Timestamp bidTime) {
 		this.bidTime = bidTime;
-	}
-
-	public int getBidderId() {
-		return bidderId;
-	}
-
-	public void setBidderId(int bidderId) {
-		this.bidderId = bidderId;
 	}
 
 	public float getBidValue() {
@@ -95,11 +80,11 @@ public class Bid {
 		this.expirationTime = expirationTime;
 	}
 
-	public Timestamp getWasAccepted() {
+	public boolean isWasAccepted() {
 		return wasAccepted;
 	}
 
-	public void setWasAccepted(Timestamp wasAccepted) {
+	public void setWasAccepted(boolean wasAccepted) {
 		this.wasAccepted = wasAccepted;
 	}
 
@@ -109,6 +94,14 @@ public class Bid {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Sale getSale() {
+		return sale;
+	}
+
+	public void setSale(Sale sale) {
+		this.sale = sale;
 	}
 
 }

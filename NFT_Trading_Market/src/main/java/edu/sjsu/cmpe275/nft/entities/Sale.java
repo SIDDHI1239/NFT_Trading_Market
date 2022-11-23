@@ -45,19 +45,21 @@ public class Sale {
 	
 	@JsonBackReference
 	@ManyToOne
+	@JoinColumn(name = "TOKEN_ID")
+	private NFT nft;
+	
+	@JsonBackReference
+	@ManyToOne
 	@JoinColumn(name = "USER_ID")
+	@Column(name = "SELLER_ID")
 	private User seller;
 
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "USER_ID")
+	@Column(name = "BUYER_ID")
 	private User buyer;
 	
-	@JsonBackReference
-	@ManyToOne
-	@JoinColumn(name = "TOKEN_ID")
-	private NFT nft;
-
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "SYMBOL")

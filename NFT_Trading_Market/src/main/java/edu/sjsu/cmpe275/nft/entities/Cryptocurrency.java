@@ -24,7 +24,7 @@ public class Cryptocurrency {
 	@Column(name = "NAME")
 	private String name;
 	
-	@JsonBackReference
+	@JsonManagedReference
 	@OneToMany(mappedBy = "cryptocurrency")
 	private List<Sale> sales;
 	
