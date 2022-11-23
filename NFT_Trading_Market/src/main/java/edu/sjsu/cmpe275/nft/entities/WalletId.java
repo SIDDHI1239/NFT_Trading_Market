@@ -1,3 +1,7 @@
+package edu.sjsu.cmpe275.nft.entities;
+
+import java.io.Serializable;
+
 public class WalletId implements Serializable {
     
     private int user;

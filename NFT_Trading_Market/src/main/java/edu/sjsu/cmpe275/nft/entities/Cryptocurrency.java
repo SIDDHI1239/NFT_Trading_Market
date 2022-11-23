@@ -32,12 +32,12 @@ public class Cryptocurrency {
 	@OneToMany(mappedBy = "cryptocurrency")
 	private List<Wallet> wallets;
 
-	public String getCurrencyType() {
-		return currencyType;
+	public String getSymbol() {
+		return symbol;
 	}
 
-	public void setCurrencyType(String currencyType) {
-		this.currencyType = currencyType;
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
 	}
 
 	public String getName() {

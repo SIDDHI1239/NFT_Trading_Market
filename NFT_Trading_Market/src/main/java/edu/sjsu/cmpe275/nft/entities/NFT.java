@@ -52,12 +52,12 @@ public class NFT {
 	@OneToMany(mappedBy = "nft")
 	private List<Sale> sales;
 
-	public String getId() {
-		return id;
+	public String getTokenId() {
+		return tokenId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setTokenId(String tokenId) {
+		this.tokenId = tokenId;
 	}
 
 	public String getSmartContractAddress() {

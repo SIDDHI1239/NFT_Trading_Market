@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -77,19 +79,19 @@ public class Sale {
 		this.type = type;
 	}
 
-	public float getExpectedValue() {
+	public double getExpectedValue() {
 		return expectedValue;
 	}
 
-	public void setExpectedValue(float expectedValue) {
+	public void setExpectedValue(double expectedValue) {
 		this.expectedValue = expectedValue;
 	}
 
-	public float getReceivedValue() {
+	public double getReceivedValue() {
 		return receivedValue;
 	}
 
-	public void setReceivedValue(float receivedValue) {
+	public void setReceivedValue(double receivedValue) {
 		this.receivedValue = receivedValue;
 	}
 
