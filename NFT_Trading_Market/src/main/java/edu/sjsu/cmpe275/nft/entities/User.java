@@ -61,7 +61,7 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Sale> sales;
 
-	@JsonBackReference
+	@JsonManagedReference
 	@OneToMany(mappedBy = "user")
 //	@JoinTable(name = "user_salebid",
 //	joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") },
