@@ -27,10 +27,6 @@ public class Cryptocurrency {
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "cryptocurrency")
-	private List<Wallet> wallets;
-	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "cryptocurrency")
 	private List<Sale> sales;
 	
 	@JsonManagedReference
