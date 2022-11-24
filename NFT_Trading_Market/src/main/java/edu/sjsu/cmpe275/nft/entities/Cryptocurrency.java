@@ -22,7 +22,7 @@ public class Cryptocurrency {
 	private String name;
 	
 	@JsonManagedReference
-	@OneToMany(mappedBy = "cryptocurrency")
+	@OneToMany(mappedBy = "walletId.cryptocurrency")
 	private List<Wallet> wallets;
 	
 	@JsonManagedReference

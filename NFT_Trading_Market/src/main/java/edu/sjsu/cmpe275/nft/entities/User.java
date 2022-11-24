@@ -51,7 +51,7 @@ public class User {
 	private List<NFT> nfts;
 
 	@JsonManagedReference
-	@OneToOne(mappedBy = "user")
+	@OneToOne(mappedBy = "walletId.user")
 	private Wallet wallet;
 	
 	@JsonManagedReference
