@@ -28,7 +28,7 @@
 - Close auction
 
 
-### DataBAse Entities Mapping
+### Database Entities Mapping
 - User to Cryptocurrency_Wallet     : One to One 
 - User to NFT                       : One to Many 
 - User to sale                      : One to Many
