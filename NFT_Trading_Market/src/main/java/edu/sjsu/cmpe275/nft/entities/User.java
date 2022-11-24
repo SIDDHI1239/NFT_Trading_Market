@@ -7,13 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -23,7 +20,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "USER_ID")
-	private int id;
+	private int userId;
 
 	@Column(name = "FIRST_NAME")
 	private String firstName;
@@ -54,26 +51,39 @@ public class User {
 	private List<NFT> nfts;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "user")
-	private List<Wallet> wallet;
+	@OneToOne(mappedBy = "user")
+	private Wallet wallet;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "seller")
+	private List<Sale> sellerSales;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "user")
-	private List<Sale> sales;
-
+	@OneToMany(mappedBy = "buyer")
+	private List<Sale> buyerSales;
+	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user")
-//	@JoinTable(name = "user_salebid",
-//	joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") },
-//	inverseJoinColumns = {@JoinColumn(name = "BID_ID", referencedColumnName = "BID_ID") })
 	private List<Bid> bids;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "user")
+	private List<Transaction> transactions;
 
-	public int getId() {
-		return id;
+	public List<Transaction> getTransactions() {
+		return transactions;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -148,20 +158,28 @@ public class User {
 		this.nfts = nfts;
 	}
 
-	public List<Wallet> getWallet() {
+	public Wallet getWallet() {
 		return wallet;
 	}
 
-	public void setWallet(List<Wallet> wallet) {
+	public void setWallet(Wallet wallet) {
 		this.wallet = wallet;
 	}
 
-	public List<Sale> getSales() {
-		return sales;
+	public List<Sale> getSellerSales() {
+		return sellerSales;
 	}
 
-	public void setSales(List<Sale> sales) {
-		this.sales = sales;
+	public void setSellerSales(List<Sale> sellerSales) {
+		this.sellerSales = sellerSales;
+	}
+
+	public List<Sale> getBuyerSales() {
+		return buyerSales;
+	}
+
+	public void setBuyerSales(List<Sale> buyerSales) {
+		this.buyerSales = buyerSales;
 	}
 
 	public List<Bid> getBids() {

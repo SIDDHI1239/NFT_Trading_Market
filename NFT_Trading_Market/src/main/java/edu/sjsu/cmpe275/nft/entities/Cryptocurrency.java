@@ -5,12 +5,9 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -26,11 +23,15 @@ public class Cryptocurrency {
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "cryptocurrency")
+	private List<Wallet> wallets;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "cryptocurrency")
 	private List<Sale> sales;
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "cryptocurrency")
-	private List<Wallet> wallets;
+	private List<Transaction> transactions;
 
 	public String getSymbol() {
 		return symbol;
@@ -62,6 +63,22 @@ public class Cryptocurrency {
 
 	public void setWallets(List<Wallet> wallets) {
 		this.wallets = wallets;
+	}
+
+	public List<Sale> getSales() {
+		return sales;
+	}
+
+	public void setSales(List<Sale> sales) {
+		this.sales = sales;
+	}
+
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
 	}
 
 }

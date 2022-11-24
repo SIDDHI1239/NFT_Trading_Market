@@ -25,7 +25,7 @@ public class Sale {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "SALE_ID")
-	private int id;
+	private int saleId;
 	
 	@Column(name = "TYPE")
 	@Enumerated(EnumType.ORDINAL)
@@ -43,6 +43,10 @@ public class Sale {
 	@Column(name = "CLOSING_TIME")
 	private Timestamp closingTime;
 	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "sale")
+	private List<Bid> bids;
+	
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "TOKEN_ID")
@@ -50,14 +54,12 @@ public class Sale {
 	
 	@JsonBackReference
 	@ManyToOne
-	@JoinColumn(name = "USER_ID")
-	@Column(name = "SELLER_ID")
+	@JoinColumn(name = "SELLER_ID", referencedColumnName = "USER_ID")
 	private User seller;
 
 	@JsonBackReference
 	@ManyToOne
-	@JoinColumn(name = "USER_ID")
-	@Column(name = "BUYER_ID")
+	@JoinColumn(name = "BUYER_ID", referencedColumnName = "USER_ID")
 	private User buyer;
 	
 	@JsonBackReference
@@ -65,12 +67,12 @@ public class Sale {
 	@JoinColumn(name = "SYMBOL")
 	private Cryptocurrency cryptocurrency;
 	
-	public int getId() {
-		return id;
+	public int getSaleId() {
+		return saleId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setSaleId(int saleId) {
+		this.saleId = saleId;
 	}
 
 	public SalesType getType() {
