@@ -26,3 +26,18 @@
 - Bid to an auction NFT
 - Accept a bid
 - Close auction
+
+
+### DataBAse Entities Mapping
+- User to Cryptocurrency_Wallet     : One to One 
+- User to NFT                       : One to Many 
+- User to sale                      : One to Many
+- User to sale_Bid                  : One to Many
+- Sale_bid to Sale                  : Many to Many
+- NFT to Sale                       : One to Many
+- User to Transaction               : One to Many
+- NFT  to Transaction               : One to Many
+- Cryptocurrency_Wallet to          : Many to One
+  Cryptocurrency
+- Transaction to Cryptocurrency     : Many to One
+- Cryptocurrency to Sale            : One to Many
