@@ -51,6 +51,10 @@ public class NFT {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "nft")
 	private List<Sale> sales;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "nft")
+	private List<Transaction> transactions;
 
 	public String getTokenId() {
 		return tokenId;

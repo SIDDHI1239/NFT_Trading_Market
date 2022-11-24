@@ -1,7 +1,6 @@
 package edu.sjsu.cmpe275.nft.entities;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,12 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "SALE_BID")
@@ -23,37 +20,36 @@ public class Bid {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "BID_ID")
-	private int id;
+	private int bidId;
 
 	@Column(name = "BID_TIME")
 	private Timestamp bidTime;
 
 	@Column(name = "BID_VALUE")
-	private float bidValue;
+	private double bidValue;
 
 	@Column(name = "EXPIRATION_TIME")
 	private Timestamp expirationTime;
 
 	@Column(name = "WAS_ACCEPTED")
 	private boolean wasAccepted;
-
-	@JsonBackReference
-	@ManyToOne
-	@JoinColumn(name = "USER_ID")
-	@Column(name = "BIDDER_ID")
-	private User user;
-
+	
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "SALE_ID")
 	private Sale sale;
 
-	public int getId() {
-		return id;
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "BIDDER_ID", referencedColumnName = "USER_ID")
+	private User user;
+
+	public int getBidId() {
+		return bidId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setBidId(int bidId) {
+		this.bidId = bidId;
 	}
 
 	public Timestamp getBidTime() {
@@ -64,11 +60,11 @@ public class Bid {
 		this.bidTime = bidTime;
 	}
 
-	public float getBidValue() {
+	public double getBidValue() {
 		return bidValue;
 	}
 
-	public void setBidValue(float bidValue) {
+	public void setBidValue(double bidValue) {
 		this.bidValue = bidValue;
 	}
 
