@@ -3,36 +3,47 @@ package edu.sjsu.cmpe275.nft.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+@Embeddable
 public class WalletId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	private int user;
-	private String cryptocurrency;
-	
+
+	@OneToOne
+	@JoinColumn(name = "WALLET_ID", referencedColumnName = "USER_ID")
+	private User user;
+
+	@ManyToOne
+	@JoinColumn(name = "SYMBOL", referencedColumnName = "SYMBOL")
+	private Cryptocurrency cryptocurrency;
+
 	public WalletId() {
-		
+
 	}
 
-	public WalletId(int user, String cryptocurrency) {
+	public WalletId(User user, Cryptocurrency cryptocurrency) {
 		super();
 		this.user = user;
 		this.cryptocurrency = cryptocurrency;
 	}
 
-	public int getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(int userId) {
-		this.user = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public String getCryptocurrency() {
+	public Cryptocurrency getCryptocurrency() {
 		return cryptocurrency;
 	}
 
-	public void setCryptocurrency(String cryptocurrency) {
+	public void setCryptocurrency(Cryptocurrency cryptocurrency) {
 		this.cryptocurrency = cryptocurrency;
 	}
 
@@ -48,7 +59,7 @@ public class WalletId implements Serializable {
 
 		WalletId walletId = (WalletId) o;
 
-		return this.user == walletId.getUser() && this.cryptocurrency.equals(walletId.getCryptocurrency());
+		return this.user.equals(walletId.getUser()) && this.cryptocurrency.equals(walletId.getCryptocurrency());
 	}
 
 	@Override
