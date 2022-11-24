@@ -2,18 +2,56 @@ package edu.sjsu.cmpe275.nft.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import edu.sjsu.cmpe275.nft.entities.User;
+import edu.sjsu.cmpe275.nft.services.UserService;
 
 @Controller
 public class UserController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 	
-	@GetMapping("/home")
-	public String getHome() {
-		LOG.info("Executing getHome() << ");
-		return "home";
+	@Autowired
+	private UserService userService;
+	
+	@RequestMapping("/register")
+	public String register() {
+		return "register";
+	}
+	
+	@RequestMapping("/login")
+	public String login() {
+		return "login";
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@ModelAttribute("user") User user, @RequestParam("confirmPassword") String confirmPassword, ModelMap modelMap) {
+		String email = user.getEmail();
+		User retrievedUser = userService.getUserByEmail(email);
+		
+		if (retrievedUser != null) {
+			modelMap.addAttribute("msg", "A user already exists with the given email. Please try with different email.");
+			return "register";
+		}
+		
+		String password = user.getPassword();
+		
+		if (!password.equals(confirmPassword)) {
+			modelMap.addAttribute("msg", "Passwords don't match. Please try again.");
+			return "register";
+		}
+		
+		userService.addUser(user);
+		
+		return "login";
 	}
 	
 	@GetMapping("/Profile")
