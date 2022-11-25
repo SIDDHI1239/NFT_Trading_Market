@@ -1,0 +1,12 @@
+package edu.sjsu.cmpe275.nft.services;
+
+import edu.sjsu.cmpe275.nft.entities.User;
+
+public interface UserService {
+
+	User getUserByEmail(String email);
+	
+	User addUser(User user);
+	
+	User getUserByNickName(String nickName);
+}

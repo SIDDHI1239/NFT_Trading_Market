@@ -20,7 +20,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "USER_ID")
-	private int userId;
+	private Long userId;
 
 	@Column(name = "FIRST_NAME")
 	private String firstName;
@@ -29,7 +29,7 @@ public class User {
 	private String lastName;
 
 	@Column(name = "USERNAME")
-	private String userName;
+	private String email;
 
 	@Column(name = "NICKNAME")
 	private String nickName;
@@ -78,11 +78,11 @@ public class User {
 		this.transactions = transactions;
 	}
 
-	public int getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -102,12 +102,12 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getNickName() {

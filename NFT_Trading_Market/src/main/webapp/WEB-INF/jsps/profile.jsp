@@ -8,7 +8,9 @@
 </head>
 <body>
 	<h2>Hello [Username] !!!</h2>
-
-	To Sell NFT<a href="SellNFT">Sell NFT</a>
+<pre>
+To Sell NFT<a href="SellNFT">Sell NFT</a>
+<a href="logout">Logout</a>
+</pre>
 </body>
 </html>
