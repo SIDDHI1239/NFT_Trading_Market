@@ -8,11 +8,12 @@
 </head>
 <body>
 <h2>User Login</h2>
-<form action="profile" method="post">
+<form action="login" method="post">
 <pre>
 Email : <input type="text" name="email" />
-Password : <input type="password" name="Password" />
+Password : <input type="password" name="password" />
 <input type="submit" value="Login" />
+${msg}
 </pre>
 </form>
 </body>
