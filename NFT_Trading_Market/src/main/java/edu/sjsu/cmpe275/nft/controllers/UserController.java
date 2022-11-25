@@ -98,13 +98,13 @@ public class UserController {
 		return "profile";
 	}
 	
-//	@GetMapping("/Profile")
-//	public String getProfile() {
-//		String userName = "Mithra";
-//		System.out.println("In getProfile");
-//		return "profile";
-//		
-//	}
+	@GetMapping("/profile")
+	public String getProfile() {
+		String userName = "Mithra";
+		System.out.println("In getProfile");
+		return "profile";
+		
+	}
 
 
 }
