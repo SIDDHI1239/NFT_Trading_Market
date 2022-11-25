@@ -31,6 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.authorizeRequests().antMatchers("/", "/index.html", "/registerUser", "/login").permitAll()
 				.antMatchers("/*").authenticated().and().csrf().disable()
-				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true));
+				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login").invalidateHttpSession(true));
 	}
 }
