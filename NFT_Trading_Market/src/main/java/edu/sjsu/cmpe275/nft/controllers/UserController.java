@@ -32,13 +32,21 @@ public class UserController {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") User user, @RequestParam("confirmPassword") String confirmPassword, ModelMap modelMap) {
 		String email = user.getEmail();
-		User retrievedUser = userService.getUserByEmail(email);
+		User userWithEmail = userService.getUserByEmail(email);
 		
-		if (retrievedUser != null) {
+		if (userWithEmail != null) {
 			modelMap.addAttribute("msg", "A user already exists with the given email. Please try with different email.");
+			return "register";
+		}
+		
+		String nickName = user.getNickName();
+		User userWithNickName = userService.getUserByNickName(nickName);
+		
+		if (userWithNickName != null) {
+			modelMap.addAttribute("msg", "Nickname :" + nickName + " is already taken and is not available. Please try with a different unique nickname.");
 			return "register";
 		}
 		

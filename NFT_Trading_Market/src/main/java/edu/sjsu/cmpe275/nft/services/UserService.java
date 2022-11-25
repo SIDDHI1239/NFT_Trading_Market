@@ -7,4 +7,6 @@ public interface UserService {
 	User getUserByEmail(String email);
 	
 	User addUser(User user);
+	
+	User getUserByNickName(String nickName);
 }
