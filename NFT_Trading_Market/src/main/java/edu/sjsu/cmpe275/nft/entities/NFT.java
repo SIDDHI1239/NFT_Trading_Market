@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -43,14 +44,17 @@ public class NFT {
 	@Column(name = "ASSET_URL")
 	private String assetUrl;
 	
+	
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "USER_ID")
 	private User user;
 	
+	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "nft")
 	private List<Sale> sales;
+	
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "nft")

@@ -98,19 +98,13 @@ public class UserController {
 		return "profile";
 	}
 	
-	@GetMapping("/Profile")
+	@GetMapping("/profile")
 	public String getProfile() {
-		
 		String userName = "Mithra";
 		System.out.println("In getProfile");
-		return "Profile";
+		return "profile";
 		
 	}
-	
-	@GetMapping("/SellNFT")
-	public String sellNFT() {
-		System.out.println("In SellNFT");
-		return "SellNFT";
-		
-	}
+
+
 }
