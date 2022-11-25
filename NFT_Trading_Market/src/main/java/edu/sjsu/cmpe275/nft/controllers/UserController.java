@@ -3,6 +3,7 @@ package edu.sjsu.cmpe275.nft.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.sjsu.cmpe275.nft.entities.User;
+import edu.sjsu.cmpe275.nft.services.SecurityService;
 import edu.sjsu.cmpe275.nft.services.UserService;
 
 @Controller
@@ -19,23 +21,32 @@ public class UserController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 	
+	// Regex which allows alphanumeric passwords only
+	private static final String ALPHANUMERIC_PATTERN = "^[a-zA-Z0-9]+$";
+	
 	@Autowired
 	private UserService userService;
 	
-	private static final String ALPHANUMERIC_PATTERN = "^[a-zA-Z0-9]+$";
+	// Bean for password encryption
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	@RequestMapping("/register")
-	public String register() {
+	// Bean for security (login)
+	@Autowired
+	private SecurityService securityService;
+	
+	@RequestMapping("/registerUser")
+	public String getRegister() {
 		return "register";
 	}
 	
 	@RequestMapping("/login")
-	public String login() {
+	public String getLogin() {
 		return "login";
 	}
 	
 	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
-	public String login(@ModelAttribute("user") User user, @RequestParam("confirmPassword") String confirmPassword, ModelMap modelMap) {
+	public String registerUser(@ModelAttribute("user") User user, @RequestParam("confirmPassword") String confirmPassword, ModelMap modelMap) {
 		String email = user.getEmail();
 		User userWithEmail = userService.getUserByEmail(email);
 		
@@ -66,9 +77,25 @@ public class UserController {
 			return "register";
 		}
 		
+		// Encoding password
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		
 		userService.addUser(user);
 		
 		return "login";
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap modelMap) {
+		// verifying login with security service
+		boolean isSuccess = securityService.login(email, password);
+		
+		if (!isSuccess) {
+			modelMap.addAttribute("msg", "Invalid email or password. Please try again.");
+			return "login";
+		}
+		
+		return "profile";
 	}
 	
 	@GetMapping("/Profile")
