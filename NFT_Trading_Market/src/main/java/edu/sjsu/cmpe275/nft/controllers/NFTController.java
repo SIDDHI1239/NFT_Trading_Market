@@ -38,7 +38,6 @@ public class NFTController {
 	private NFTService nftService;
 
 	@PostMapping(value = "/addNFT", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
 	public String addNFT(@RequestParam("name") String name, @RequestParam("type") String type,
 			@RequestParam("description") String description, @RequestParam("imageUrl") String imageUrl,
 			@RequestParam("assetUrl") String assetUrl) {
