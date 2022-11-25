@@ -22,6 +22,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	private static final String ALPHANUMERIC_PATTERN = "^[a-zA-Z0-9]+$";
+	
 	@RequestMapping("/register")
 	public String register() {
 		return "register";
@@ -54,6 +56,13 @@ public class UserController {
 		
 		if (!password.equals(confirmPassword)) {
 			modelMap.addAttribute("msg", "Passwords don't match. Please try again.");
+			return "register";
+		}
+		
+		boolean isAlphaNumeric = nickName.matches(ALPHANUMERIC_PATTERN);
+		
+		if (!isAlphaNumeric) {
+			modelMap.addAttribute("msg", "Nickname must contain alphanumeric text only. No character other than alphanumeric is allowed.");
 			return "register";
 		}
 		
