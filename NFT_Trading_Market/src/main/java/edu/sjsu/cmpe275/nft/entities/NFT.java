@@ -44,18 +44,18 @@ public class NFT {
 	@Column(name = "ASSET_URL")
 	private String assetUrl;
 	
-	@JsonIgnore
+	
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "USER_ID")
 	private User user;
 	
-	@JsonIgnore
+	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "nft")
 	private List<Sale> sales;
 	
-	@JsonIgnore
+	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "nft")
 	private List<Transaction> transactions;
