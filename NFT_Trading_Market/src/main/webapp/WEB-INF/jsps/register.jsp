@@ -9,11 +9,12 @@
 <body>
 	<h2>User Registration. Enter details to register</h2>
 
-<form action="login" method="post">
+<form action="registerUser" method="post">
 <pre>
 First Name : <input type="text" name="firstName" />
 Last Name : <input type="text" name="lastName" />
-User Name : <input type="text" name="email" />
+Username : <input type="text" name="email" />
+Nickname : <input type="text" name="nickName" />
 Password : <input type="password" name="password" />
 Confirm Password : <input type="password" name="confirmPassword" />
 <input type="submit" value="Register" />
