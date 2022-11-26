@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe275.nft.Repository;
+package edu.sjsu.cmpe275.nft.repos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
