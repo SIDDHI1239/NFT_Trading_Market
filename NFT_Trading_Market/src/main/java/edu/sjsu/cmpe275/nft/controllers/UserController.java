@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.sjsu.cmpe275.nft.entities.User;
+import edu.sjsu.cmpe275.nft.entities.VerificationToken;
 import edu.sjsu.cmpe275.nft.services.SecurityService;
 import edu.sjsu.cmpe275.nft.services.UserService;
+import edu.sjsu.cmpe275.nft.services.VerificationTokenService;
 
 @Controller
 public class UserController {
@@ -26,6 +28,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private VerificationTokenService verificationTokenService; 
 	
 	// Bean for password encryption
 	@Autowired
@@ -82,12 +87,48 @@ public class UserController {
 		
 		userService.addUser(user);
 		
-		return "login";
+		try {
+			userService.sendEmailForVerification(user);
+		} catch (Exception e) {
+			modelMap.addAttribute("msg", "Email could not be sent. Please enter valid email address and try again.");
+			return "register";
+		}
+		
+		return "registrationVerification";
 	}
+	
+//	@RequestMapping(value = "/confirmAccount", method = RequestMethod.GET)
+//	public String confirmAccount(@RequestParam("token") String token, ModelMap modelMap) {
+//		VerificationToken verificationToken = verificationTokenService.getByToken(token);
+//		
+//		if (verificationToken == null) {
+//			modelMap.addAttribute("error", "Invalid verification/confirmation link.");
+//			return "verificationFailure";
+//		}
+//		
+//		User user = verificationToken.getUser();
+//		
+//		user.setVerified(true);
+//		userService.addUser(user);
+//		
+//		return "registrationSuccess";
+//	}
 	
 	@RequestMapping(value = "/localLogin", method = RequestMethod.POST)
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap modelMap) {
 		// verifying login with security service
+		User user = userService.getUserByEmail(email);
+		
+		if (user == null) {
+			modelMap.addAttribute("msg", "User not found with email" + email);
+			return "login";
+		} else {
+			if (!user.isVerified()) {
+				modelMap.addAttribute("msg", "Email address not verified. Please verify email first.");
+				return "login";
+			}
+		}
+		
 		boolean isSuccess = securityService.login(email, password);
 		
 		if (!isSuccess) {
