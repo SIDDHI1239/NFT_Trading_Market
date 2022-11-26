@@ -45,6 +45,9 @@ public class User {
 
 	@Column(name = "IS_VERIFIED")
 	private boolean isVerified;
+	
+	@Column(name = "TOKEN")
+	private String token;
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user")
@@ -148,6 +151,14 @@ public class User {
 
 	public void setVerified(boolean isVerified) {
 		this.isVerified = isVerified;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public List<NFT> getNfts() {

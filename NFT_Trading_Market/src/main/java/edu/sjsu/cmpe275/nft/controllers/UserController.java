@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.nft.controllers;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,14 +82,50 @@ public class UserController {
 		// Encoding password
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		
+		String token = UUID.randomUUID().toString();
+		user.setToken(token);
 		userService.addUser(user);
 		
-		return "login";
+		try {
+			userService.sendEmailForVerification(user);
+		} catch (Exception e) {
+			modelMap.addAttribute("msg", "Email could not be sent. Please enter valid email address and try again.");
+			return "register";
+		}
+		
+		return "registrationVerification";
+	}
+	
+	@RequestMapping(value = "/confirmAccount", method = RequestMethod.GET)
+	public String confirmAccount(@RequestParam("token") String token, ModelMap modelMap) {
+		User user = userService.getByToken(token);
+		
+		if (user == null) {
+			modelMap.addAttribute("error", "Invalid verification/confirmation link.");
+			return "verificationFailure";
+		}
+		
+		user.setVerified(true);
+		userService.addUser(user);
+		
+		return "registrationSuccess";
 	}
 	
 	@RequestMapping(value = "/localLogin", method = RequestMethod.POST)
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap modelMap) {
 		// verifying login with security service
+		User user = userService.getUserByEmail(email);
+		
+		if (user == null) {
+			modelMap.addAttribute("msg", "User not found with email" + email);
+			return "login";
+		} else {
+			if (!user.isVerified()) {
+				modelMap.addAttribute("msg", "Email address not verified. Please verify email first.");
+				return "login";
+			}
+		}
+		
 		boolean isSuccess = securityService.login(email, password);
 		
 		if (!isSuccess) {
@@ -109,6 +147,11 @@ public class UserController {
 		System.out.println("In getProfile");
 		return "profile";
 		
+	}
+	
+	@RequestMapping("/sellnft")
+	public String sellNFT() {
+		return "sellnft";
 	}
 
 }
