@@ -29,9 +29,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-//	@Autowired
-//	private VerificationTokenService verificationTokenService; 
-	
 	// Bean for password encryption
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -101,15 +98,12 @@ public class UserController {
 	
 	@RequestMapping(value = "/confirmAccount", method = RequestMethod.GET)
 	public String confirmAccount(@RequestParam("token") String token, ModelMap modelMap) {
-//		VerificationToken verificationToken = verificationTokenService.getByToken(token);
 		User user = userService.getByToken(token);
 		
 		if (user == null) {
 			modelMap.addAttribute("error", "Invalid verification/confirmation link.");
 			return "verificationFailure";
 		}
-		
-//		User user = verificationToken.getUser();
 		
 		user.setVerified(true);
 		userService.addUser(user);
