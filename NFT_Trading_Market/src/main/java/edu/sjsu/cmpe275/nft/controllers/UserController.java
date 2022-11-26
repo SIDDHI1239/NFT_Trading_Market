@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.nft.controllers;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ public class UserController {
 		return "register";
 	}
 	
-	@RequestMapping("/login")
+	@RequestMapping("/localLogin")
 	public String getLogin() {
 		return "login";
 	}
@@ -80,14 +82,55 @@ public class UserController {
 		// Encoding password
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		
+		String token = UUID.randomUUID().toString();
+		user.setToken(token);
 		userService.addUser(user);
 		
-		return "login";
+		try {
+			userService.sendEmailForVerification(user);
+		} catch (Exception e) {
+			modelMap.addAttribute("msg", "Email could not be sent. Please enter valid email address and try again.");
+			return "register";
+		}
+		
+		return "registrationVerification";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/confirmAccount", method = RequestMethod.GET)
+	public String confirmAccount(@RequestParam("token") String token, ModelMap modelMap) {
+		User user = userService.getByToken(token);
+		
+		if (user == null) {
+			modelMap.addAttribute("error", "Invalid verification/confirmation link.");
+			return "verificationFailure";
+		}
+		
+		if (user.isVerified()) {
+			modelMap.addAttribute("msg", user.getEmail() + " already verified. Please login to access your account.");
+			return "login";
+		}
+		
+		user.setVerified(true);
+		userService.addUser(user);
+		
+		return "registrationSuccess";
+	}
+	
+	@RequestMapping(value = "/localLogin", method = RequestMethod.POST)
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap modelMap) {
 		// verifying login with security service
+		User user = userService.getUserByEmail(email);
+		
+		if (user == null) {
+			modelMap.addAttribute("msg", "User not found with email" + email);
+			return "login";
+		} else {
+			if (!user.isVerified()) {
+				modelMap.addAttribute("msg", "Email address not verified. Please verify email first.");
+				return "login";
+			}
+		}
+		
 		boolean isSuccess = securityService.login(email, password);
 		
 		if (!isSuccess) {
@@ -95,6 +138,11 @@ public class UserController {
 			return "login";
 		}
 		
+		return "profile";
+	}
+  
+  @RequestMapping("/googleLogin")
+	public String googleLogin() {
 		return "profile";
 	}
 	
@@ -105,6 +153,10 @@ public class UserController {
 		return "profile";
 		
 	}
-
+	
+	@RequestMapping("/sellnft")
+	public String sellNFT() {
+		return "sellnft";
+	}
 
 }
