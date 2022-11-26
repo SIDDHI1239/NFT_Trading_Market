@@ -97,25 +97,18 @@ public class UserController {
 		
 		return "profile";
 	}
-	
-	@RequestMapping("/googleLogin")
+  
+  @RequestMapping("/googleLogin")
 	public String googleLogin() {
 		return "profile";
 	}
 	
 	@GetMapping("/profile")
 	public String getProfile() {
-		
 		String userName = "Mithra";
 		System.out.println("In getProfile");
 		return "profile";
 		
 	}
-	
-	@GetMapping("/SellNFT")
-	public String sellNFT() {
-		System.out.println("In SellNFT");
-		return "sellNFT";
-		
-	}
+
 }
