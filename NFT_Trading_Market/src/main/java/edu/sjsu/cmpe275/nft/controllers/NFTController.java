@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.sjsu.cmpe275.nft.entities.NFT;
-import edu.sjsu.cmpe275.nft.service.NFTService;
+import edu.sjsu.cmpe275.nft.services.NFTService;
 
 @RestController
 @RequestMapping("/nft")

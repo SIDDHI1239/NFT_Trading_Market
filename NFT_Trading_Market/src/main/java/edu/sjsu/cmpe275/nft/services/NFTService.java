@@ -1,5 +1,5 @@
 
-package edu.sjsu.cmpe275.nft.service;
+package edu.sjsu.cmpe275.nft.services;
 
 import edu.sjsu.cmpe275.nft.entities.NFT;
 
