@@ -40,7 +40,7 @@ public class UserController {
 		return "register";
 	}
 	
-	@RequestMapping("/login")
+	@RequestMapping("/localLogin")
 	public String getLogin() {
 		return "login";
 	}
@@ -85,7 +85,7 @@ public class UserController {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/localLogin", method = RequestMethod.POST)
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap modelMap) {
 		// verifying login with security service
 		boolean isSuccess = securityService.login(email, password);
@@ -97,6 +97,11 @@ public class UserController {
 		
 		return "profile";
 	}
+  
+  @RequestMapping("/googleLogin")
+	public String googleLogin() {
+		return "profile";
+	}
 	
 	@GetMapping("/profile")
 	public String getProfile() {
@@ -105,6 +110,5 @@ public class UserController {
 		return "profile";
 		
 	}
-
 
 }
