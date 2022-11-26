@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.nft.services;
 
+import java.net.InetAddress;
+
 import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 
@@ -15,15 +17,15 @@ import edu.sjsu.cmpe275.nft.repos.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
+	
+	@Value("${server.port}")
+	private String PORT;
 
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
 	private JavaMailSender mailSender;
-
-//	@Autowired
-//	private VerificationTokenRepository verificationTokenRepository;
 
 	@Value("${spring.mail.username}")
 	private String fromEmail;
@@ -49,23 +51,15 @@ public class UserServiceImpl implements UserService {
 	@Async
 	@Override
 	public void sendEmailForVerification(User user) throws Exception {
-//		VerificationToken verificationToken = new VerificationToken();
-//		
-//		String token = UUID.randomUUID().toString();
-//		
-//		verificationToken.setToken(token);
-//		verificationToken.setCreatedDate(new Date());
-//		verificationToken.setUser(user);
-//		
-//		verificationTokenRepository.save(verificationToken);
-
+		String host;
 		MimeMessage message = mailSender.createMimeMessage();
 
 		try {
+			host = InetAddress.getLocalHost().getHostName();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setTo(user.getEmail());
 			helper.setSubject("Registration Verification");
-			helper.setText("Please click here http://localhost:8080/confirmAccount?token=" + user.getToken() + " to verify your account.");
+			helper.setText("Please click here http://" + host + ":" + PORT +"/confirmAccount?token=" + user.getToken() + " to verify your account.");
 			mailSender.send(message);
 		} catch (Exception ex) {
 			throw ex;
