@@ -110,5 +110,10 @@ public class UserController {
 		return "profile";
 		
 	}
+	
+	@RequestMapping("/sellnft")
+	public String sellNFT() {
+		return "sellnft";
+	}
 
 }
