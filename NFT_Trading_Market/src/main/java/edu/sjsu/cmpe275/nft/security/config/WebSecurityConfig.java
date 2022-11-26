@@ -29,8 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// authorizing requests for certain end points
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.authorizeRequests().antMatchers("/", "/index.html", "/registerUser", "/login").permitAll()
-				.antMatchers("/*").authenticated().and().csrf().disable()
-				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login").invalidateHttpSession(true));
+		httpSecurity.authorizeRequests().antMatchers("/", "/index.html", "/registerUser", "/localLogin").permitAll()
+				.anyRequest().authenticated().and().csrf().disable().oauth2Login().defaultSuccessUrl("/profile").failureUrl("/index.html").and()
+				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true));
 	}
 }

@@ -40,12 +40,12 @@ public class UserController {
 		return "register";
 	}
 	
-	@RequestMapping("/login")
+	@RequestMapping("/localLogin")
 	public String getLogin() {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String registerUser(@ModelAttribute("user") User user, @RequestParam("confirmPassword") String confirmPassword, ModelMap modelMap) {
 		String email = user.getEmail();
 		User userWithEmail = userService.getUserByEmail(email);
@@ -85,7 +85,7 @@ public class UserController {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/localLogin", method = RequestMethod.POST)
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap modelMap) {
 		// verifying login with security service
 		boolean isSuccess = securityService.login(email, password);
@@ -98,19 +98,24 @@ public class UserController {
 		return "profile";
 	}
 	
-	@GetMapping("/Profile")
+	@RequestMapping("/googleLogin")
+	public String googleLogin() {
+		return "profile";
+	}
+	
+	@GetMapping("/profile")
 	public String getProfile() {
 		
 		String userName = "Mithra";
 		System.out.println("In getProfile");
-		return "Profile";
+		return "profile";
 		
 	}
 	
 	@GetMapping("/SellNFT")
 	public String sellNFT() {
 		System.out.println("In SellNFT");
-		return "SellNFT";
+		return "sellNFT";
 		
 	}
 }
