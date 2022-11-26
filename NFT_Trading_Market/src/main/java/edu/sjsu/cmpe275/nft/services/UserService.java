@@ -11,4 +11,6 @@ public interface UserService {
 	User getUserByNickName(String nickName);
 	
 	void sendEmailForVerification(User user) throws Exception;
+	
+	User getByToken(String token);
 }

@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.nft.controllers;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.sjsu.cmpe275.nft.entities.User;
-import edu.sjsu.cmpe275.nft.entities.VerificationToken;
 import edu.sjsu.cmpe275.nft.services.SecurityService;
 import edu.sjsu.cmpe275.nft.services.UserService;
-import edu.sjsu.cmpe275.nft.services.VerificationTokenService;
 
 @Controller
 public class UserController {
@@ -29,8 +29,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private VerificationTokenService verificationTokenService; 
+//	@Autowired
+//	private VerificationTokenService verificationTokenService; 
 	
 	// Bean for password encryption
 	@Autowired
@@ -85,6 +85,8 @@ public class UserController {
 		// Encoding password
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		
+		String token = UUID.randomUUID().toString();
+		user.setToken(token);
 		userService.addUser(user);
 		
 		try {
@@ -97,22 +99,23 @@ public class UserController {
 		return "registrationVerification";
 	}
 	
-//	@RequestMapping(value = "/confirmAccount", method = RequestMethod.GET)
-//	public String confirmAccount(@RequestParam("token") String token, ModelMap modelMap) {
+	@RequestMapping(value = "/confirmAccount", method = RequestMethod.GET)
+	public String confirmAccount(@RequestParam("token") String token, ModelMap modelMap) {
 //		VerificationToken verificationToken = verificationTokenService.getByToken(token);
-//		
-//		if (verificationToken == null) {
-//			modelMap.addAttribute("error", "Invalid verification/confirmation link.");
-//			return "verificationFailure";
-//		}
-//		
+		User user = userService.getByToken(token);
+		
+		if (user == null) {
+			modelMap.addAttribute("error", "Invalid verification/confirmation link.");
+			return "verificationFailure";
+		}
+		
 //		User user = verificationToken.getUser();
-//		
-//		user.setVerified(true);
-//		userService.addUser(user);
-//		
-//		return "registrationSuccess";
-//	}
+		
+		user.setVerified(true);
+		userService.addUser(user);
+		
+		return "registrationSuccess";
+	}
 	
 	@RequestMapping(value = "/localLogin", method = RequestMethod.POST)
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap modelMap) {
