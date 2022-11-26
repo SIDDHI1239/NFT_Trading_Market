@@ -45,7 +45,7 @@ public class UserController {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
 	public String registerUser(@ModelAttribute("user") User user, @RequestParam("confirmPassword") String confirmPassword, ModelMap modelMap) {
 		String email = user.getEmail();
 		User userWithEmail = userService.getUserByEmail(email);
