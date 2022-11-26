@@ -105,6 +105,11 @@ public class UserController {
 			return "verificationFailure";
 		}
 		
+		if (user.isVerified()) {
+			modelMap.addAttribute("msg", user.getEmail() + " already verified. Please login to access your account.");
+			return "login";
+		}
+		
 		user.setVerified(true);
 		userService.addUser(user);
 		
