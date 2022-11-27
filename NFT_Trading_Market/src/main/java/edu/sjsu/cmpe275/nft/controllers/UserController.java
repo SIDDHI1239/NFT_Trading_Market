@@ -138,7 +138,7 @@ public class UserController {
 			return "login";
 		}
 		
-		return "profile";
+		return "displayProfile";
 	}
   
   @RequestMapping("/googleLogin")
