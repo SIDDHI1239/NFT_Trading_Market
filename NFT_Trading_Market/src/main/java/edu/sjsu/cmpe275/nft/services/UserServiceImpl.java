@@ -51,15 +51,15 @@ public class UserServiceImpl implements UserService {
 	@Async
 	@Override
 	public void sendEmailForVerification(User user) throws Exception {
-		String host;
+		String host = InetAddress.getLocalHost().getHostName();
 		MimeMessage message = mailSender.createMimeMessage();
 
 		try {
-			host = InetAddress.getLocalHost().getHostName();
+//			host = InetAddress.getLocalHost().getHostName();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setTo(user.getEmail());
 			helper.setSubject("Registration Verification");
-			helper.setText("Please click here http://" + host + ":" + PORT +"/confirmAccount?token=" + user.getToken() + " to verify your account.");
+			helper.setText("Please click here http://localhost:" + PORT +"/confirmAccount?token=" + user.getToken() + " to verify your account.");
 			mailSender.send(message);
 		} catch (Exception ex) {
 			throw ex;
