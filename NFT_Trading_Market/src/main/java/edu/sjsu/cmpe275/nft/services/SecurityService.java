@@ -7,5 +7,5 @@ public interface SecurityService {
 
 	boolean login(String email, String password);
 	
-	User getCurrentUser();
+	User getCurrentLoggedInUser();
 }

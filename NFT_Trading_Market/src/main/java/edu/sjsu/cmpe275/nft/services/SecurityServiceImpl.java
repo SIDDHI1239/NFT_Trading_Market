@@ -51,17 +51,17 @@ public class SecurityServiceImpl implements SecurityService {
 	}
 	
 	@Override
-	public User getCurrentUser() {
+	public User getCurrentLoggedInUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		if (authentication == null) return null;
+		if (authentication == null || !authentication.isAuthenticated()) return null;
 		
-		String email = authentication.getName();
-		
-		System.out.println(email);
-		
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		String email = userDetails.getUsername();
 		User user = userService.getUserByEmail(email);
+		
 		return user;
+		
 	}
 
 }
