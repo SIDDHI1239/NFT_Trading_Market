@@ -20,7 +20,7 @@ public class Bid {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "BID_ID")
-	private Long id;
+	private long id;
 
 	@Column(name = "BID_TIME")
 	private Timestamp bidTime;
