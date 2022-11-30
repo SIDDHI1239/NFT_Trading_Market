@@ -12,6 +12,8 @@ import edu.sjsu.cmpe275.nft.entities.Sale;
 @Repository
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
+
 	@Query("from Sale where seller_id=:userId")
 	List<Sale> findAllSalesListedBy(@Param("userId") Long userId);
+
 }

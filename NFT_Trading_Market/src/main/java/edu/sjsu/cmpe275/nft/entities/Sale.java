@@ -27,7 +27,7 @@ public class Sale {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "SALE_ID")
-	private Long id;
+	private long id;
 	
 	@Column(name = "TYPE")
 	@Enumerated(EnumType.ORDINAL)
