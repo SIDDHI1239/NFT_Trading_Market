@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
 
 import edu.sjsu.cmpe275.nft.entities.User;
@@ -53,11 +54,18 @@ public class SecurityServiceImpl implements SecurityService {
 	@Override
 	public User getCurrentLoggedInUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email;
 		
 		if (authentication == null || !authentication.isAuthenticated()) return null;
 		
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		String email = userDetails.getUsername();
+		if (authentication instanceof DefaultOidcUser) {
+			DefaultOidcUser defaultOidcUser = (DefaultOidcUser) authentication.getPrincipal();
+			email = defaultOidcUser.getAttribute("email");
+		} else {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			email = userDetails.getUsername();
+		}
+		
 		User user = userService.getUserByEmail(email);
 		
 		return user;
