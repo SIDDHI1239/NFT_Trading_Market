@@ -58,18 +58,19 @@ public class SecurityServiceImpl implements SecurityService {
 		
 		if (authentication == null || !authentication.isAuthenticated()) return null;
 		
-		if (authentication instanceof DefaultOidcUser) {
-			DefaultOidcUser defaultOidcUser = (DefaultOidcUser) authentication.getPrincipal();
+		Object principal = authentication.getPrincipal();
+		
+		if (principal instanceof DefaultOidcUser) {
+			DefaultOidcUser defaultOidcUser = (DefaultOidcUser) principal;
 			email = defaultOidcUser.getAttribute("email");
 		} else {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			UserDetails userDetails = (UserDetails) principal;
 			email = userDetails.getUsername();
 		}
 		
 		User user = userService.getUserByEmail(email);
 		
 		return user;
-		
 	}
 
 }

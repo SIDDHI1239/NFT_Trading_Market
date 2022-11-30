@@ -29,6 +29,7 @@
 				<td><a href="sell">Sell</a></td>
 			</tr>
 		</c:forEach>
-	</table>
+	</table><br>
+	<a href="logout">Logout</a>
 </body>
 </html>
