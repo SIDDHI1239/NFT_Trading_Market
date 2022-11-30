@@ -7,12 +7,14 @@
 <title>User Profile</title>
 </head>
 <body>
-	<h2>Hello [Username] !!!</h2>
+	<h2>Welcome back ${user}</h2>
 <pre>
-To Sell NFT<a href="sellnft">Sell NFT</a>
-<a href="Deposit">Deposit</a>
-<a href="Withdraw">Withdraw</a>
-<a href="logout">Logout</a>
+Click here to <a href="createNft">Create NFT</a><br>
+Click here to <a href="buyNft">Create NFT</a><br>
+Click here to <a href="sellNft">Create NFT</a><br>
+Click here to <a href="deposit">Deposit to Wallet</a>
+Click here to <a href="withdraw">Withdraw from Wallet</a>
+Clicke here to <a href="logout">Logout</a>
 </pre>
 </body>
 </html>
