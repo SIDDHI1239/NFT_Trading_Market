@@ -33,7 +33,7 @@ public class NFTController {
 	@Autowired
 	private SecurityService securityService;
 
-	@PostMapping(value = "/addnft")
+	@PostMapping(value = "/createNft")
 	public String addNFT(@RequestParam("name") String name, @RequestParam("type") String type,
 			@RequestParam("description") String description, @RequestParam("imageUrl") String imageUrl,
 			@RequestParam("assetUrl") String assetUrl) {
@@ -61,10 +61,10 @@ public class NFTController {
 
 		Log.info("Exiting addNFT() >> {}", tokenId);
 
-		return "sellNFT";
+		return "sellNft";
 	}
 	
-	@RequestMapping("/sellnft")
+	@RequestMapping("/sellNft")
 	public String sellNFT(ModelMap modelMap) {
 		User currentUser = securityService.getCurrentUser();
 		

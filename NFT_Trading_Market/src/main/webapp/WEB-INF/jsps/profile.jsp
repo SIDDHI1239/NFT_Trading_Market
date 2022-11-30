@@ -14,7 +14,7 @@ Click here to <a href="buyNft">Create NFT</a><br>
 Click here to <a href="sellNft">Create NFT</a><br>
 Click here to <a href="deposit">Deposit to Wallet</a>
 Click here to <a href="withdraw">Withdraw from Wallet</a>
-Clicke here to <a href="logout">Logout</a>
+Click here to <a href="logout">Logout</a>
 </pre>
 </body>
 </html>
