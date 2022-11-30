@@ -17,6 +17,7 @@
 			<th>Description</th>
 			<th>Image URL</th>
 			<th>Asset URL</th>
+			<th>Action</th>
 		</tr>
 		<c:forEach items="${nfts}" var="nft">
 			<tr>
@@ -25,6 +26,7 @@
 				<td>${nft.description}</td>
 				<td>${nft.imageUrl}</td>
 				<td>${nft.assetUrl}</td>
+				<td><a href="sell">Sell</a></td>
 			</tr>
 		</c:forEach>
 	</table>

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import edu.sjsu.cmpe275.nft.entities.NFT;
 import edu.sjsu.cmpe275.nft.entities.User;
@@ -21,7 +20,6 @@ import edu.sjsu.cmpe275.nft.services.NFTService;
 import edu.sjsu.cmpe275.nft.services.SecurityService;
 
 @Controller
-@RequestMapping("/nft")
 @CrossOrigin(origins = "*")
 public class NFTController {
 
@@ -57,7 +55,7 @@ public class NFTController {
 		nft.setAssetUrl(assetUrl);
 		nft.setLastRecordedDate(lastRecordedData);
 
-		NFT createdNFT = nftService.addNFT(nft);
+		nftService.addNFT(nft);
 
 		Log.info("Exiting addNFT() >> {}", tokenId);
 

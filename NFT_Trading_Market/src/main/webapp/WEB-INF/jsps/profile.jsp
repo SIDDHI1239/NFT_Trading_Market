@@ -10,11 +10,11 @@
 	<h2>Welcome back ${user}</h2>
 <pre>
 Click here to <a href="createNft">Create NFT</a><br>
-Click here to <a href="buyNft">Create NFT</a><br>
-Click here to <a href="sellNft">Create NFT</a><br>
-Click here to <a href="deposit">Deposit to Wallet</a>
-Click here to <a href="withdraw">Withdraw from Wallet</a>
-Click here to <a href="logout">Logout</a>
+Click here to <a href="buyNft">Buy NFT</a><br>
+Click here to <a href="sellNft">Sell NFT</a><br>
+Click here to <a href="deposit">Deposit to Wallet</a><br>
+Click here to <a href="withdraw">Withdraw from Wallet</a><br>
+Click here to <a href="logout">Logout</a><br>
 </pre>
 </body>
 </html>

@@ -148,8 +148,6 @@ public class UserController {
 	
 	@GetMapping("/profile")
 	public String getProfile() {
-		String userName = "Mithra";
-		System.out.println("In getProfile");
 		return "profile";
 		
 	}
