@@ -6,12 +6,15 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
+import edu.sjsu.cmpe275.nft.entities.User;
 
 // Service for UsernamePasswordAuthenticationToken for authentication and maintaining session by setting user in Security context until user logs out
 @Service
@@ -22,6 +25,9 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Autowired
 	AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public boolean login(String email, String password) {
@@ -42,6 +48,20 @@ public class SecurityServiceImpl implements SecurityService {
 		}
 
 		return isTokenAuthenticated;
+	}
+	
+	@Override
+	public User getCurrentUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (authentication == null) return null;
+		
+		String email = authentication.getName();
+		
+		System.out.println(email);
+		
+		User user = userService.getUserByEmail(email);
+		return user;
 	}
 
 }

@@ -154,9 +154,4 @@ public class UserController {
 		
 	}
 	
-	@RequestMapping("/sellnft")
-	public String sellNFT() {
-		return "sellnft";
-	}
-
 }
