@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.sjsu.cmpe275.nft.entities.Bid;
 import edu.sjsu.cmpe275.nft.entities.Sale;
@@ -27,27 +28,39 @@ public class SaleServiceImpl implements SaleService {
 	
 	}
 	
+	@Override
+	@Transactional
 	public Sale getById( long saleId ) {
 		
 		return saleRepository.getReferenceById( saleId );
 	}
 	
+	@Override
+	@Transactional
 	public Sale save(Sale sale) {
 		return saleRepository.save( sale );
 	}
 	
+	@Override
+	@Transactional
 	public Bid getBidById( Long bidId ) {
 		return bidRepository.getReferenceById( bidId );
 	}
 	
+	@Override
+	@Transactional
 	public Bid saveBid( Bid bid ) {
 		return bidRepository.save( bid );
 	}
 	
+	@Override
+	@Transactional
 	public Bid getPreviousActiveBid( Bid newBid ) {
 		return bidRepository.findTopBySaleIdAndUserIdOrderByIdDesc( newBid.getSale().getId(), newBid.getUser().getId() );
 	}
 	
+	@Override
+	@Transactional
 	public Bid getHighestBid( Long saleId ) {
 		return bidRepository.findTopBySaleIdOrderByBidValueDesc( saleId );
 	}
