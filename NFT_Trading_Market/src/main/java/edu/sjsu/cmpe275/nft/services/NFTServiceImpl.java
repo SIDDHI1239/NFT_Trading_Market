@@ -39,7 +39,7 @@ public class NFTServiceImpl implements NFTService {
 	}
 	
 	public List<NFT> getAllNFTs(User user) {
-		Long userId = user.getUserId();
+		Long userId = user.getId();
 		return nftRepository.findAllNFTs(userId);
 	}
 }
