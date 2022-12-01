@@ -166,6 +166,12 @@ public class UserController {
 	@RequestMapping(value = "/localLogin", method = RequestMethod.POST)
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password,
 			ModelMap modelMap) {
+		
+		if (email.isBlank() || password.isBlank()) {
+			modelMap.addAttribute("msg", "Email or Password cannot be empty.");
+			return "login";
+		}
+		
 		// verifying login with security service
 		User user = userService.getUserByEmail(email);
 
