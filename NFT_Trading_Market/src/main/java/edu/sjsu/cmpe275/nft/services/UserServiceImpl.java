@@ -27,9 +27,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private JavaMailSender mailSender;
 
-	@Value("${spring.mail.username}")
-	private String fromEmail;
-
 	@Override
 	@Transactional
 	public User getUserByEmail(String email) {
@@ -67,11 +64,13 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Transactional
 	public User getByToken(String token) {
 		return userRepository.findByToken(token);
 	}
 	
 	@Override
+	@Transactional
 	public User getById( long userId ) {
 		return userRepository.getReferenceById( userId );
 	}

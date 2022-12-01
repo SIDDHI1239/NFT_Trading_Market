@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.sjsu.cmpe275.nft.entities.User;
 
@@ -32,6 +33,7 @@ public class SecurityServiceImpl implements SecurityService {
 	private UserService userService;
 
 	@Override
+	@Transactional
 	public boolean login(String email, String password) {
 		Set<GrantedAuthority> authorities = new HashSet<>();
 		authorities.add(new SimpleGrantedAuthority("USER"));

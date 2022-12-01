@@ -38,6 +38,8 @@ public class NFTServiceImpl implements NFTService {
 		return nftRepository.save(nft);
 	}
 	
+	@Override
+	@Transactional
 	public List<NFT> getAllNFTs(User user) {
 		Long userId = user.getId();
 		return nftRepository.findAllNFTs(userId);

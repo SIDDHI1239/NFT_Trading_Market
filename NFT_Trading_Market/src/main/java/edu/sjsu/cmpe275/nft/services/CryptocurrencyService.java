@@ -11,4 +11,6 @@ public interface CryptocurrencyService {
 	List<Cryptocurrency> getAll();
 	
 	Cryptocurrency addCryptocurrency(Cryptocurrency cryptocurrency);
+	
+	Cryptocurrency createCryptocurrency(String symbol, String name);
 }

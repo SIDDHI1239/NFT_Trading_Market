@@ -1,7 +1,5 @@
 package edu.sjsu.cmpe275.nft.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -110,26 +108,28 @@ public class UserController {
 		
 		userService.addUser(user);
 		
-		Cryptocurrency bitcoinCryptocurrency = new Cryptocurrency(Constants.BTC, Constants.BITCOIN);
+//		Cryptocurrency bitcoinCryptocurrency = new Cryptocurrency(Constants.BTC, Constants.BITCOIN);
+//		
+//		cryptocurrencyService.addCryptocurrency(bitcoinCryptocurrency);
+//		
+//		WalletId bitcoinWalletId = new WalletId(user, bitcoinCryptocurrency);
+//		
+//		Wallet bitcoinWallet = new Wallet();
+//		bitcoinWallet.setWalletId(bitcoinWalletId);
+//		
+//		Cryptocurrency ethereumCryptocurrency = new Cryptocurrency(Constants.ETH, Constants.ETHEREUM);
+//		
+//		cryptocurrencyService.addCryptocurrency(ethereumCryptocurrency);
+//		
+//		WalletId ethereumWalletId = new WalletId(user, ethereumCryptocurrency);
+//		
+//		Wallet ethereumWallet = new Wallet();
+//		ethereumWallet.setWalletId(ethereumWalletId);
+//		
+//		walletService.addWallet(bitcoinWallet);
+//		walletService.addWallet(ethereumWallet);
 		
-		cryptocurrencyService.addCryptocurrency(bitcoinCryptocurrency);
-		
-		WalletId bitcoinWalletId = new WalletId(user, bitcoinCryptocurrency);
-		
-		Wallet bitcoinWallet = new Wallet();
-		bitcoinWallet.setWalletId(bitcoinWalletId);
-		
-		Cryptocurrency ethereumCryptocurrency = new Cryptocurrency(Constants.ETH, Constants.ETHEREUM);
-		
-		cryptocurrencyService.addCryptocurrency(ethereumCryptocurrency);
-		
-		WalletId ethereumWalletId = new WalletId(user, ethereumCryptocurrency);
-		
-		Wallet ethereumWallet = new Wallet();
-		ethereumWallet.setWalletId(ethereumWalletId);
-		
-		walletService.addWallet(bitcoinWallet);
-		walletService.addWallet(ethereumWallet);
+		walletService.createWallets(user);
 		
 		try {
 			userService.sendEmailForVerification(user);
