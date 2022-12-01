@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import edu.sjsu.cmpe275.nft.entities.enums.SalesType;
+
 @Entity
 @Table(name = "SALE")
 public class Sale {

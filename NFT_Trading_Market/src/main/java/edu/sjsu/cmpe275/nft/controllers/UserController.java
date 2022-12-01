@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.sjsu.cmpe275.nft.entities.Cryptocurrency;
-import edu.sjsu.cmpe275.nft.entities.Provider;
 import edu.sjsu.cmpe275.nft.entities.User;
 import edu.sjsu.cmpe275.nft.entities.Wallet;
 import edu.sjsu.cmpe275.nft.entities.WalletId;
+import edu.sjsu.cmpe275.nft.entities.enums.Provider;
 import edu.sjsu.cmpe275.nft.services.CryptocurrencyService;
 import edu.sjsu.cmpe275.nft.services.SecurityService;
 import edu.sjsu.cmpe275.nft.services.UserService;
@@ -108,29 +108,6 @@ public class UserController {
 		
 		userService.addUser(user);
 		
-//		Cryptocurrency bitcoinCryptocurrency = new Cryptocurrency(Constants.BTC, Constants.BITCOIN);
-//		
-//		cryptocurrencyService.addCryptocurrency(bitcoinCryptocurrency);
-//		
-//		WalletId bitcoinWalletId = new WalletId(user, bitcoinCryptocurrency);
-//		
-//		Wallet bitcoinWallet = new Wallet();
-//		bitcoinWallet.setWalletId(bitcoinWalletId);
-//		
-//		Cryptocurrency ethereumCryptocurrency = new Cryptocurrency(Constants.ETH, Constants.ETHEREUM);
-//		
-//		cryptocurrencyService.addCryptocurrency(ethereumCryptocurrency);
-//		
-//		WalletId ethereumWalletId = new WalletId(user, ethereumCryptocurrency);
-//		
-//		Wallet ethereumWallet = new Wallet();
-//		ethereumWallet.setWalletId(ethereumWalletId);
-//		
-//		walletService.addWallet(bitcoinWallet);
-//		walletService.addWallet(ethereumWallet);
-		
-//		walletService.createWallets(user);
-		
 		try {
 			userService.sendEmailForVerification(user);
 		} catch (Exception e) {
@@ -166,6 +143,12 @@ public class UserController {
 	@RequestMapping(value = "/localLogin", method = RequestMethod.POST)
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password,
 			ModelMap modelMap) {
+		
+		if (email.isBlank() || password.isBlank()) {
+			modelMap.addAttribute("msg", "Email or Password cannot be empty.");
+			return "login";
+		}
+		
 		// verifying login with security service
 		User user = userService.getUserByEmail(email);
 
@@ -233,8 +216,6 @@ public class UserController {
 		
 		userService.addUser(newGoogleUser);
 		
-//		walletService.createWallets(newGoogleUser);
-		
 		try {
 			userService.sendEmailForVerification(newGoogleUser);
 		} catch (Exception e) {
@@ -242,37 +223,7 @@ public class UserController {
 			return "verificationFailure";
 		}
 
-		/*
-		 * if (!newGoogleUser.isVerified()) { return "registrationVerification"; }
-		 */
-		
 		return "registrationVerification";
-		
-		/*
-		 * if (googleEmail == null) { try { User user = new User();
-		 * user.setEmail(currentUser.getEmail());
-		 * user.setProvider(Provider.GOOGLE.toString()); String token =
-		 * UUID.randomUUID().toString(); user.setToken(token);
-		 * 
-		 * userService.addUser(user);
-		 * 
-		 * userService.sendEmailForVerification(currentUser); } catch (Exception e) {
-		 * modelMap.addAttribute("msg", "Failed to send email. Please try again.");
-		 * return "redirect:googleLogin"; }
-		 * 
-		 * return "registrationVerification"; }
-		 * 
-		 * if (!currentUser.getProvider().equals(Provider.GOOGLE.toString())) {
-		 * modelMap.addAttribute("msg",
-		 * "A local user already exists with the same email. Please try local login with the same email."
-		 * ); return "login"; }
-		 * 
-		 * if (!currentUser.isVerified()) { modelMap.addAttribute("msg",
-		 * "Email address not verified. Please verify email first."); return
-		 * "registrationVerification"; }
-		 * 
-		 * return "profile";
-		 */
 	}
 
 	@GetMapping("/profile")

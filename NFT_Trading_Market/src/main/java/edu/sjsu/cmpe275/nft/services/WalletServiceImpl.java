@@ -8,6 +8,7 @@ import edu.sjsu.cmpe275.nft.entities.Cryptocurrency;
 import edu.sjsu.cmpe275.nft.entities.User;
 import edu.sjsu.cmpe275.nft.entities.Wallet;
 import edu.sjsu.cmpe275.nft.entities.WalletId;
+import edu.sjsu.cmpe275.nft.entities.enums.Currency;
 import edu.sjsu.cmpe275.nft.repos.WalletRepository;
 import edu.sjsu.cmpe275.nft.util.Constants;
 
@@ -26,27 +27,25 @@ public class WalletServiceImpl implements WalletService {
 		return walletRepository.save(wallet);
 	}
 
+	// Creates wallets for all supported currencies to the given user
 	@Override
 	@Transactional
 	public void createWallets(User user) {
-		// Cryptocurrency bitcoinCryptocurrency = new Cryptocurrency(Constants.BTC,
-		// Constants.BITCOIN);
-		Cryptocurrency bitcoinCryptocurrency = cryptocurrencyService.createCryptocurrency(Constants.BTC,
-				Constants.BITCOIN);
-		Cryptocurrency ethereumCryptocurrency = cryptocurrencyService.createCryptocurrency(Constants.ETH,
-				Constants.ETHEREUM);
 
-		WalletId bitcoinWalletId = new WalletId(user, bitcoinCryptocurrency);
-		WalletId ethereumWalletId = new WalletId(user, ethereumCryptocurrency);
-
-		Wallet bitcoinWallet = new Wallet();
-		bitcoinWallet.setWalletId(bitcoinWalletId);
-
-		Wallet ethereumWallet = new Wallet();
-		ethereumWallet.setWalletId(ethereumWalletId);
-
-		create(bitcoinWallet);
-		create(ethereumWallet);
+		for (Currency currency : Currency.values()) {
+			// create currency for each supported currency
+			Cryptocurrency cryptocurrency = cryptocurrencyService.createCryptocurrency(currency.getKey(), currency.getValue());
+			
+			// create wallet ID for currency to the given user
+			WalletId walletId = new WalletId(user, cryptocurrency);
+			
+			// assign wallet ID to wallet for that user
+			Wallet wallet = new Wallet();
+			wallet.setWalletId(walletId);
+			
+			// create wallet
+			create(wallet);
+		}
 	}
 
 }
