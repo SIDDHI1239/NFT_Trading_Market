@@ -13,5 +13,4 @@ public interface WalletService {
 	
 	List<Wallet> getWallets(User user);
 	
-//	Wallet getWallet(Long id, String currency);
 }

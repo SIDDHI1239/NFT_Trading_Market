@@ -236,17 +236,5 @@ public class UserController {
 		
 		return "viewBalance";
 	}
-	
-//	@RequestMapping(value = "/displayBalance", method = RequestMethod.POST)
-//	public String displayBalance(@ModelAttribute("symbol") String symbol, ModelMap modelMap) {
-//		
-//		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
-//		
-//		Wallet wallet = walletService.getWallet(currentLoggedInUser.getId(), symbol);
-//		
-//		modelMap.addAttribute("balance", wallet.getBalance());
-//		
-//		return "viewBalance";
-//	}
 
 }

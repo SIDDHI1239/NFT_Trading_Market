@@ -57,10 +57,4 @@ public class WalletServiceImpl implements WalletService {
 		return walletRepository.findAllWalletsById(walletId);
 	}
 	
-//	@Override
-//	@Transactional
-//	public Wallet getWallet(Long id, String currency) {
-//		return walletRepository.getWallet(id, currency);
-//	}
-
 }
