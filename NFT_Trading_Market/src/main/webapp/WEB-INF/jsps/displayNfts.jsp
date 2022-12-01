@@ -8,28 +8,34 @@
 <title>Display NFT's</title>
 </head>
 <body>
-	<h2>NFT's:</h2>
-
-	<table>
-		<tr>
-			<th>Name</th>
-			<th>Type</th>
-			<th>Description</th>
-			<th>Image URL</th>
-			<th>Asset URL</th>
-			<th>Action</th>
-		</tr>
-		<c:forEach items="${nfts}" var="nft">
+	<div align="center">
+		<table border="1" cellpadding="5">
+			<caption>
+				<h2>List of NFT's</h2>
+			</caption>
 			<tr>
-				<td>${nft.name}</td>
-				<td>${nft.type}</td>
-				<td>${nft.description}</td>
-				<td>${nft.imageUrl}</td>
-				<td>${nft.assetUrl}</td>
-				<td><a href="sell">Sell</a></td>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Description</th>
+				<th>Image URL</th>
+				<th>Asset URL</th>
+				<th>Action</th>
 			</tr>
-		</c:forEach>
-	</table><br>
-	<a href="logout">Logout</a>
+			<c:forEach items="${nfts}" var="nft">
+				<tr>
+					<td><c:out value="${nft.name}" /></td>
+					<td><c:out value="${nft.type}" /></td>
+					<td><c:out value="${nft.description}" /></td>
+					<td><c:out value="${nft.imageUrl}" /></td>
+					<td><c:out value="${nft.assetUrl}" /></td>
+					<td><a href="sell">Sell</a></td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+	<br>
+	<div align="center">
+		<a href="logout">Logout</a>
+	</div>
 </body>
 </html>
