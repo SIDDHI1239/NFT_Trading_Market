@@ -26,7 +26,6 @@ public class WalletId implements Serializable {
 	}
 
 	public WalletId(User user, Cryptocurrency cryptocurrency) {
-		super();
 		this.user = user;
 		this.cryptocurrency = cryptocurrency;
 	}

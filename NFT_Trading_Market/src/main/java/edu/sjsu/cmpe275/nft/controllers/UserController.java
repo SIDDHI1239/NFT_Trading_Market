@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.nft.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -16,10 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import edu.sjsu.cmpe275.nft.entities.Cryptocurrency;
 import edu.sjsu.cmpe275.nft.entities.Provider;
 import edu.sjsu.cmpe275.nft.entities.User;
+import edu.sjsu.cmpe275.nft.entities.Wallet;
+import edu.sjsu.cmpe275.nft.entities.WalletId;
+import edu.sjsu.cmpe275.nft.services.CryptocurrencyService;
 import edu.sjsu.cmpe275.nft.services.SecurityService;
 import edu.sjsu.cmpe275.nft.services.UserService;
+import edu.sjsu.cmpe275.nft.services.WalletService;
+import edu.sjsu.cmpe275.nft.util.Constants;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -40,6 +48,12 @@ public class UserController {
 	// Bean for security (login)
 	@Autowired
 	private SecurityService securityService;
+	
+	@Autowired
+	private WalletService walletService;
+	
+	@Autowired
+	private CryptocurrencyService cryptocurrencyService;
 
 	@RequestMapping("/registerUser")
 	public String getRegister() {
@@ -93,8 +107,30 @@ public class UserController {
 		String token = UUID.randomUUID().toString();
 		user.setToken(token);
 		user.setProvider(Provider.LOCAL.toString());
+		
 		userService.addUser(user);
-
+		
+		Cryptocurrency bitcoinCryptocurrency = new Cryptocurrency(Constants.BTC, Constants.BITCOIN);
+		
+		cryptocurrencyService.addCryptocurrency(bitcoinCryptocurrency);
+		
+		WalletId bitcoinWalletId = new WalletId(user, bitcoinCryptocurrency);
+		
+		Wallet bitcoinWallet = new Wallet();
+		bitcoinWallet.setWalletId(bitcoinWalletId);
+		
+		Cryptocurrency ethereumCryptocurrency = new Cryptocurrency(Constants.ETH, Constants.ETHEREUM);
+		
+		cryptocurrencyService.addCryptocurrency(ethereumCryptocurrency);
+		
+		WalletId ethereumWalletId = new WalletId(user, ethereumCryptocurrency);
+		
+		Wallet ethereumWallet = new Wallet();
+		ethereumWallet.setWalletId(ethereumWalletId);
+		
+		walletService.addWallet(bitcoinWallet);
+		walletService.addWallet(ethereumWallet);
+		
 		try {
 			userService.sendEmailForVerification(user);
 		} catch (Exception e) {
