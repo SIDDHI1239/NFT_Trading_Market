@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.nft.services;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,26 @@ public class SecurityServiceImpl implements SecurityService {
 		User user = userService.getUserByEmail(email);
 		
 		return user;
+	}
+	
+	@Override
+	public Map<String, Object> getCurrentLoggedInUserAttibutesFromOAuth() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (authentication == null || !authentication.isAuthenticated()) return null;
+		
+		Object principal = authentication.getPrincipal();
+		
+		DefaultOidcUser defaultOidcUser = (DefaultOidcUser) principal;
+
+		Map<String, Object> attributes = defaultOidcUser.getAttributes();
+		
+		return attributes;
+	}
+	
+	@Override
+	public void removeCurrentLoggedInUserFromOAuth() {
+		SecurityContextHolder.getContext().setAuthentication(null);
 	}
 
 }
