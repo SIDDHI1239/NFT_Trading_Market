@@ -129,7 +129,7 @@ public class UserController {
 //		walletService.addWallet(bitcoinWallet);
 //		walletService.addWallet(ethereumWallet);
 		
-		walletService.createWallets(user);
+//		walletService.createWallets(user);
 		
 		try {
 			userService.sendEmailForVerification(user);
@@ -157,6 +157,8 @@ public class UserController {
 
 		user.setVerified(true);
 		userService.addUser(user);
+		
+		walletService.createWallets(user);
 
 		return "registrationSuccess";
 	}
@@ -173,6 +175,11 @@ public class UserController {
 		} else {
 			if (!user.isVerified()) {
 				modelMap.addAttribute("msg", "Email address not verified. Please verify email first.");
+				return "login";
+			}
+			
+			if (!user.getProvider().equals(Provider.LOCAL.toString())) {
+				modelMap.addAttribute("msg", "User " + email + " is not a local user. Please try logging in with Google.");
 				return "login";
 			}
 		}
@@ -226,7 +233,7 @@ public class UserController {
 		
 		userService.addUser(newGoogleUser);
 		
-		walletService.createWallets(newGoogleUser);
+//		walletService.createWallets(newGoogleUser);
 		
 		try {
 			userService.sendEmailForVerification(newGoogleUser);
