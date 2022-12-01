@@ -226,6 +226,8 @@ public class UserController {
 		
 		userService.addUser(newGoogleUser);
 		
+		walletService.createWallets(newGoogleUser);
+		
 		try {
 			userService.sendEmailForVerification(newGoogleUser);
 		} catch (Exception e) {
