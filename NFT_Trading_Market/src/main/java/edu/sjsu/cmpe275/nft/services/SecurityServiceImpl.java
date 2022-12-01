@@ -6,12 +6,16 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
+
+import edu.sjsu.cmpe275.nft.entities.User;
 
 // Service for UsernamePasswordAuthenticationToken for authentication and maintaining session by setting user in Security context until user logs out
 @Service
@@ -22,6 +26,9 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Autowired
 	AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public boolean login(String email, String password) {
@@ -42,6 +49,28 @@ public class SecurityServiceImpl implements SecurityService {
 		}
 
 		return isTokenAuthenticated;
+	}
+	
+	@Override
+	public User getCurrentLoggedInUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email;
+		
+		if (authentication == null || !authentication.isAuthenticated()) return null;
+		
+		Object principal = authentication.getPrincipal();
+		
+		if (principal instanceof DefaultOidcUser) {
+			DefaultOidcUser defaultOidcUser = (DefaultOidcUser) principal;
+			email = defaultOidcUser.getAttribute("email");
+		} else {
+			UserDetails userDetails = (UserDetails) principal;
+			email = userDetails.getUsername();
+		}
+		
+		User user = userService.getUserByEmail(email);
+		
+		return user;
 	}
 
 }

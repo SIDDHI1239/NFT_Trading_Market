@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import edu.sjsu.cmpe275.nft.services.SecurityService;
 import edu.sjsu.cmpe275.nft.services.UserService;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class UserController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
@@ -148,15 +150,8 @@ public class UserController {
 	
 	@GetMapping("/profile")
 	public String getProfile() {
-		String userName = "Mithra";
-		System.out.println("In getProfile");
 		return "profile";
 		
 	}
 	
-	@RequestMapping("/sellnft")
-	public String sellNFT() {
-		return "sellnft";
-	}
-
 }
