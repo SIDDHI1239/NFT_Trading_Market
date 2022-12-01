@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.nft.controllers;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -10,22 +11,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import edu.sjsu.cmpe275.nft.entities.Cryptocurrency;
 import edu.sjsu.cmpe275.nft.entities.User;
 import edu.sjsu.cmpe275.nft.entities.Wallet;
-import edu.sjsu.cmpe275.nft.entities.WalletId;
 import edu.sjsu.cmpe275.nft.entities.enums.Provider;
-import edu.sjsu.cmpe275.nft.services.CryptocurrencyService;
 import edu.sjsu.cmpe275.nft.services.SecurityService;
 import edu.sjsu.cmpe275.nft.services.UserService;
 import edu.sjsu.cmpe275.nft.services.WalletService;
-import edu.sjsu.cmpe275.nft.util.Constants;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -50,15 +46,12 @@ public class UserController {
 	@Autowired
 	private WalletService walletService;
 	
-	@Autowired
-	private CryptocurrencyService cryptocurrencyService;
-
-	@RequestMapping("/registerUser")
+	@RequestMapping(value = "/registerUser", method = RequestMethod.GET)
 	public String getRegister() {
 		return "register";
 	}
 
-	@RequestMapping("/localLogin")
+	@RequestMapping(value = "/localLogin", method = RequestMethod.GET)
 	public String getLogin() {
 		return "login";
 	}
@@ -177,7 +170,7 @@ public class UserController {
 		return "displayProfile";
 	}
 
-	@RequestMapping("/googleLogin")
+	@RequestMapping(value = "/googleLogin", method = RequestMethod.GET)
 	public String googleLogin(ModelMap modelMap) {
 		Map<String, Object> attributes = securityService.getCurrentLoggedInUserAttibutesFromOAuth();
 		
@@ -226,10 +219,34 @@ public class UserController {
 		return "registrationVerification";
 	}
 
-	@GetMapping("/profile")
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public String getProfile() {
 		return "profile";
 
 	}
+	
+	@RequestMapping(value = "/viewBalance", method = RequestMethod.GET)
+	public String viewBalance(ModelMap modelMap) {
+		
+		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
+		
+		List<Wallet> wallets = walletService.getWallets(currentLoggedInUser);
+		
+		modelMap.addAttribute("wallets", wallets);
+		
+		return "viewBalance";
+	}
+	
+//	@RequestMapping(value = "/displayBalance", method = RequestMethod.POST)
+//	public String displayBalance(@ModelAttribute("symbol") String symbol, ModelMap modelMap) {
+//		
+//		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
+//		
+//		Wallet wallet = walletService.getWallet(currentLoggedInUser.getId(), symbol);
+//		
+//		modelMap.addAttribute("balance", wallet.getBalance());
+//		
+//		return "viewBalance";
+//	}
 
 }

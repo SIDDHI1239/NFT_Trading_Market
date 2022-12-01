@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.nft.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +12,6 @@ import edu.sjsu.cmpe275.nft.entities.Wallet;
 import edu.sjsu.cmpe275.nft.entities.WalletId;
 import edu.sjsu.cmpe275.nft.entities.enums.Currency;
 import edu.sjsu.cmpe275.nft.repos.WalletRepository;
-import edu.sjsu.cmpe275.nft.util.Constants;
 
 @Service
 public class WalletServiceImpl implements WalletService {
@@ -47,5 +48,19 @@ public class WalletServiceImpl implements WalletService {
 			create(wallet);
 		}
 	}
+	
+	// Returns wallets for given user
+	@Override
+	@Transactional
+	public List<Wallet> getWallets(User user) {
+		Long walletId = user.getId();
+		return walletRepository.findAllWalletsById(walletId);
+	}
+	
+//	@Override
+//	@Transactional
+//	public Wallet getWallet(Long id, String currency) {
+//		return walletRepository.getWallet(id, currency);
+//	}
 
 }

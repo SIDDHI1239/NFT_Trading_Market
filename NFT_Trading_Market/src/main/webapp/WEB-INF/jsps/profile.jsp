@@ -12,6 +12,7 @@
 Click here to <a href="createNft">Create NFT</a><br>
 Click here to <a href="buyNft">Buy NFT</a><br>
 Click here to <a href="sellNft">Sell NFT</a><br>
+Click here to <a href="viewBalance">View Wallet Balance</a><br>
 Click here to <a href="deposit">Deposit to Wallet</a><br>
 Click here to <a href="withdraw">Withdraw from Wallet</a><br>
 Click here to <a href="logout">Logout</a><br>
