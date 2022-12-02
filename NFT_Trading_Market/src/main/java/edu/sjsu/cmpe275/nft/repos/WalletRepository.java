@@ -15,5 +15,8 @@ public interface WalletRepository extends JpaRepository<Wallet, WalletId> {
 
 	@Query("from Wallet where wallet_id=:id")
 	List<Wallet> findAllWalletsById(@Param("id") Long id);
+	
+	@Query("from Wallet where wallet_id=:id and symbol=:symbol")
+	Wallet findByIdAnySymbol(@Param("id") Long id, @Param("symbol")String symbol);
 
 }

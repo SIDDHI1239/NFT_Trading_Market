@@ -13,4 +13,10 @@ public interface WalletService {
 	
 	List<Wallet> getWallets(User user);
 	
+	Wallet getWallet(Long id, String symbol);
+	
+	Wallet updateWallet(Wallet wallet);
+	
+	List<Wallet> getWallets(Long id);
+	
 }
