@@ -16,17 +16,32 @@
 			<tr>
 				<th>CryptoCurrency</th>
 				<th>Balance</th>
+				<th>Action</th>
 			</tr>
 			<c:forEach items="${wallets}" var="wallet">
 				<tr>
 					<td><c:out value="${wallet.walletId.cryptocurrency.symbol}" /></td>
 					<td><c:out value="${wallet.balance}" /></td>
+					<td>
+					<form action="withdraw" method="post">
+						<input type="hidden" name="walletId" value="${wallet.walletId.user.id}" />
+						<input type="hidden" name="symbol" value="${wallet.walletId.cryptocurrency.symbol}" />
+						<input type="submit" value="Withdraw" />
+					</form>
+					<form action="deposit" method="post">
+						<input type="hidden" name="walletId" value="${wallet.walletId.user.id}" />
+						<input type="hidden" name="symbol" value="${wallet.walletId.cryptocurrency.symbol}" />
+						<input type="submit" value="Deposit" />
+					</form>
+					</td>
 				</tr>
 			</c:forEach>
-		</table>
+		</table><br/>
+		${msg}
 	</div>
 	<br>
 	<div align="center">
+		<a href="profile">Back to Profile</a>
 		<a href="logout">Logout</a>
 	</div>
 </body>

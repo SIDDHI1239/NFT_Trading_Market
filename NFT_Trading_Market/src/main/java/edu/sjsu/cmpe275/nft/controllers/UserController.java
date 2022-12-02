@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,10 +43,10 @@ public class UserController {
 	// Bean for security (login)
 	@Autowired
 	private SecurityService securityService;
-	
+
 	@Autowired
 	private WalletService walletService;
-	
+
 	@RequestMapping(value = "/registerUser", method = RequestMethod.GET)
 	public String getRegister() {
 		return "register";
@@ -98,9 +99,9 @@ public class UserController {
 		String token = UUID.randomUUID().toString();
 		user.setToken(token);
 		user.setProvider(Provider.LOCAL.toString());
-		
+
 		userService.addUser(user);
-		
+
 		try {
 			userService.sendEmailForVerification(user);
 		} catch (Exception e) {
@@ -127,7 +128,7 @@ public class UserController {
 
 		user.setVerified(true);
 		userService.addUser(user);
-		
+
 		walletService.createWallets(user);
 
 		return "registrationSuccess";
@@ -136,12 +137,12 @@ public class UserController {
 	@RequestMapping(value = "/localLogin", method = RequestMethod.POST)
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password,
 			ModelMap modelMap) {
-		
+
 		if (email.isBlank() || password.isBlank()) {
 			modelMap.addAttribute("msg", "Email or Password cannot be empty.");
 			return "login";
 		}
-		
+
 		// verifying login with security service
 		User user = userService.getUserByEmail(email);
 
@@ -153,9 +154,10 @@ public class UserController {
 				modelMap.addAttribute("msg", "Email address not verified. Please verify email first.");
 				return "login";
 			}
-			
+
 			if (!user.getProvider().equals(Provider.LOCAL.toString())) {
-				modelMap.addAttribute("msg", "User " + email + " is not a local user. Please try logging in with Google.");
+				modelMap.addAttribute("msg",
+						"User " + email + " is not a local user. Please try logging in with Google.");
 				return "login";
 			}
 		}
@@ -173,42 +175,43 @@ public class UserController {
 	@RequestMapping(value = "/googleLogin", method = RequestMethod.GET)
 	public String googleLogin(ModelMap modelMap) {
 		Map<String, Object> attributes = securityService.getCurrentLoggedInUserAttibutesFromOAuth();
-		
+
 		String googleEmail = (String) attributes.get("email");
-		
+
 		User user = userService.getUserByEmail(googleEmail);
-		
+
 		if (user != null) {
 			if (!user.getProvider().equals(Provider.GOOGLE.toString())) {
-				modelMap.addAttribute("msg", "A local user already exists with the same email. Please try local login with the same email.");
+				modelMap.addAttribute("msg",
+						"A local user already exists with the same email. Please try local login with the same email.");
 				securityService.removeCurrentLoggedInUserFromOAuth();
 				return "login";
 			}
-			
+
 			if (!user.isVerified()) {
-				//modelMap.addAttribute("msg", "Please verify email to login.");
+				// modelMap.addAttribute("msg", "Please verify email to login.");
 				return "registrationVerification";
 			}
-			
+
 			return "profile";
 		}
-		
+
 		String firstName = (String) attributes.get("given_name");
 		String lastName = (String) attributes.get("family_name");
-		
+
 		User newGoogleUser = new User();
-		
+
 		newGoogleUser.setEmail(googleEmail);
 		newGoogleUser.setFirstName(firstName);
 		newGoogleUser.setLastName(lastName);
 		newGoogleUser.setNickName(googleEmail);
 		newGoogleUser.setProvider(Provider.GOOGLE.toString());
-		
+
 		String token = UUID.randomUUID().toString();
 		newGoogleUser.setToken(token);
-		
+
 		userService.addUser(newGoogleUser);
-		
+
 		try {
 			userService.sendEmailForVerification(newGoogleUser);
 		} catch (Exception e) {
@@ -224,16 +227,62 @@ public class UserController {
 		return "profile";
 
 	}
-	
+
 	@RequestMapping(value = "/viewBalance", method = RequestMethod.GET)
 	public String viewBalance(ModelMap modelMap) {
-		
+
 		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
-		
+
 		List<Wallet> wallets = walletService.getWallets(currentLoggedInUser);
-		
+
 		modelMap.addAttribute("wallets", wallets);
-		
+
+		return "viewBalance";
+	}
+
+	@RequestMapping(value = "/withdraw", method = RequestMethod.POST)
+	public String withdraw(@RequestParam("walletId") Long walletId, @RequestParam("symbol") String symbol,
+			ModelMap modelMap) {
+		modelMap.addAttribute("walletId", walletId);
+		modelMap.addAttribute("symbol", symbol);
+		return "withdraw";
+	}
+
+	@RequestMapping(value = "/deposit", method = RequestMethod.POST)
+	public String deposit(@RequestParam("walletId") Long walletId, @RequestParam("symbol") String symbol,
+			ModelMap modelMap) {
+		modelMap.addAttribute("walletId", walletId);
+		modelMap.addAttribute("symbol", symbol);
+		return "deposit";
+	}
+
+	@RequestMapping(value = "/updateBalance", method = RequestMethod.POST)
+	public String updateBalance(@RequestParam("action") String action, @RequestParam("walletId") Long walletId,
+			@RequestParam("symbol") String symbol, @RequestParam("balanceToWithdrawOrDeposit") Double amount,
+			ModelMap modelMap) {
+
+		Wallet wallet = walletService.getWallet(walletId, symbol);
+		Double balance = wallet.getBalance();
+
+		if (action.equals("withdraw")) {
+			if (amount > balance) {
+				modelMap.addAttribute("msg", "Maximum withdrawable amount is " + balance);
+				return "viewBalance";
+			} else {
+				balance -= amount;
+			}
+		} else if (action.equals("deposit")) {
+			balance += amount;
+		}
+
+		wallet.setBalance(balance);
+		walletService.updateWallet(wallet);
+
+		List<Wallet> wallets = walletService.getWallets(walletId);
+
+		modelMap.addAttribute("wallets", wallets);
+		modelMap.addAttribute("msg", "Your Wallet balance is updated.");
+
 		return "viewBalance";
 	}
 
