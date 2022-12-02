@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.sjsu.cmpe275.nft.entities.NFT;
@@ -30,17 +31,24 @@ public class NFTController {
 	
 	@Autowired
 	private SecurityService securityService;
+	
+	@RequestMapping(value = "/createNft", method = RequestMethod.GET)
+	public String createNft() {
+		return "createNft";
+	}
 
 	@PostMapping(value = "/createNft")
 	public String addNFT(@RequestParam("name") String name, @RequestParam("type") String type,
 			@RequestParam("description") String description, @RequestParam("imageUrl") String imageUrl,
-			@RequestParam("assetUrl") String assetUrl) {
+			@RequestParam("assetUrl") String assetUrl, ModelMap modelMap) {
 
 		Log.info("Executing addNFT() {}, {}, {},{},{} ", name, type, description, imageUrl, assetUrl);
+		
+		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
 
 		String tokenId = UUID.randomUUID().toString();
 
-		Timestamp lastRecordedData = new Timestamp(System.currentTimeMillis());
+		Timestamp lastRecordedDate = new Timestamp(System.currentTimeMillis());
 
 		String smartContactAddress = UUID.randomUUID().toString();
 
@@ -53,22 +61,27 @@ public class NFTController {
 		nft.setDescription(description);
 		nft.setImageUrl(imageUrl);
 		nft.setAssetUrl(assetUrl);
-		nft.setLastRecordedDate(lastRecordedData);
+		nft.setLastRecordedDate(lastRecordedDate);
+		nft.setUser(currentLoggedInUser);
 
 		nftService.addNFT(nft);
+		
+		List<NFT> nfts = nftService.getAllNFTs(currentLoggedInUser);
 
+		modelMap.addAttribute("nfts", nfts);
+		
 		Log.info("Exiting addNFT() >> {}", tokenId);
 
-		return "sellNft";
+		return "displayNfts";
 	}
 	
-	@RequestMapping("/sellNft")
+	@RequestMapping(value = "/sellNft", method = RequestMethod.GET)
 	public String sellNFT(ModelMap modelMap) {
-		User currentUser = securityService.getCurrentLoggedInUser();
+		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
 		
-		if (currentUser == null) return "/";
+		if (currentLoggedInUser == null) return "/";
 		
-		List<NFT> currentUserNfts = nftService.getAllNFTs(currentUser);
+		List<NFT> currentUserNfts = nftService.getAllNFTs(currentLoggedInUser);
 		modelMap.addAttribute("nfts", currentUserNfts);
 		
 		return "displayNfts";

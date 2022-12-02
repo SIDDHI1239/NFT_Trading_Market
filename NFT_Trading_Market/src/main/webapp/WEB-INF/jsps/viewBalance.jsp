@@ -27,7 +27,7 @@
 						<input type="hidden" name="walletId" value="${wallet.walletId.user.id}" />
 						<input type="hidden" name="symbol" value="${wallet.walletId.cryptocurrency.symbol}" />
 						<input type="submit" value="Withdraw" />
-					</form>
+					</form><br/>
 					<form action="deposit" method="post">
 						<input type="hidden" name="walletId" value="${wallet.walletId.user.id}" />
 						<input type="hidden" name="symbol" value="${wallet.walletId.cryptocurrency.symbol}" />
@@ -41,7 +41,7 @@
 	</div>
 	<br>
 	<div align="center">
-		<a href="profile">Back to Profile</a>
+		<a href="profile">Back to Profile</a><br/>
 		<a href="logout">Logout</a>
 	</div>
 </body>

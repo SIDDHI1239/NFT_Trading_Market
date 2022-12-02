@@ -28,13 +28,14 @@
 					<td><c:out value="${nft.description}" /></td>
 					<td><c:out value="${nft.imageUrl}" /></td>
 					<td><c:out value="${nft.assetUrl}" /></td>
-					<td><a href="sell">Sell</a></td>
+					<td><a href="sellNft?nftId=${nft.tokenId}">Sell</a></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
 	<br>
 	<div align="center">
+		<a href="profile">Back to Profile</a><br/>
 		<a href="logout">Logout</a>
 	</div>
 </body>
