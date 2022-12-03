@@ -11,7 +11,7 @@
 <div align="center">
 	<form action="updateBalance" method="post">
 		<h2>Withdraw from Wallet :</h2>
-		<input type="number" name="balanceToWithdrawOrDeposit" />
+		<input type="number" step=".000001" name="balanceToWithdrawOrDeposit" />
 		<input type="hidden" name="walletId" value="${walletId}" />
 		<input type="hidden" name="symbol" value="${symbol}" />
 		<input type="hidden" name="action" value="withdraw" />

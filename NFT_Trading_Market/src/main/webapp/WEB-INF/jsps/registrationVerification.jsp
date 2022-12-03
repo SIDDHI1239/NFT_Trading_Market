@@ -9,8 +9,7 @@
 <body>
 <h2>Please check your email for account verification.</h2><br/>
 <pre>
-Please click here to perform <a href="localLogin">Local Login</a> after verifying account.<br/>
-Please click here to perform <a href="googleLogin">Google Login</a> after verifying account.<br/>
+Please click here to perform <a href="localLogin">Login</a> after verifying account.<br/>
 </pre>
 </body>
 </html>

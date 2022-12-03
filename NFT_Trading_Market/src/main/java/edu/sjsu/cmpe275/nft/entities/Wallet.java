@@ -13,7 +13,7 @@ public class Wallet {
 	private WalletId walletId;
 
 	@Column(name = "BALANCE")
-	private Double balance;
+	private double balance;
 
 	public WalletId getWalletId() {
 		return walletId;
@@ -23,11 +23,11 @@ public class Wallet {
 		this.walletId = walletId;
 	}
 
-	public Double getBalance() {
+	public double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Double balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 
