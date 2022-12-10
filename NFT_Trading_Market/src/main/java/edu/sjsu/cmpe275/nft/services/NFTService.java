@@ -12,4 +12,5 @@ public interface NFTService {
 	
 	List<NFT> getAllNFTs(User user);
 
+	NFT getNFTById(String tokenId);
 }

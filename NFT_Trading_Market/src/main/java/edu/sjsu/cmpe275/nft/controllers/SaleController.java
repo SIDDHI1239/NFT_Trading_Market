@@ -2,19 +2,23 @@ package edu.sjsu.cmpe275.nft.controllers;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.sjsu.cmpe275.nft.entities.Bid;
 import edu.sjsu.cmpe275.nft.entities.NFT;
@@ -22,7 +26,9 @@ import edu.sjsu.cmpe275.nft.entities.Sale;
 import edu.sjsu.cmpe275.nft.entities.User;
 import edu.sjsu.cmpe275.nft.entities.enums.SalesType;
 import edu.sjsu.cmpe275.nft.services.CryptocurrencyService;
+import edu.sjsu.cmpe275.nft.services.NFTService;
 import edu.sjsu.cmpe275.nft.services.SaleService;
+import edu.sjsu.cmpe275.nft.services.SecurityService;
 import edu.sjsu.cmpe275.nft.services.UserService;
 
 @Controller
@@ -41,6 +47,12 @@ public class SaleController {
 	@Autowired
 	private CryptocurrencyService cryptocurrencyService;
 	
+	@Autowired
+	private SecurityService securityService;
+	
+	@Autowired
+	private NFTService nftService;
+	
 	@GetMapping("/new/{token}")
 	public String newSale( @PathVariable("token") String token, Model model ) {
 		
@@ -50,20 +62,20 @@ public class SaleController {
 		Sale sale = new Sale();
 		
 		// Maybe get user from session?
-		User seller = userService.getById(1);
+		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
 		
-		NFT nft = new NFT();
+//		NFT nft = new NFT();
+//		
+//		if( !nft.getUser().equals(currentLoggedInUser) ) {
+//			
+//			model.addAttribute( "message", "NFT doesn't belong to user " + seller.getNickName() );
+//			
+//			return "saleMessage";
+//			
+//		}
 		
-		if( !nft.getUser().equals(seller) ) {
-			
-			model.addAttribute( "message", "NFT doesn't belong to user " + seller.getNickName() );
-			
-			return "saleMessage";
-			
-		}
-		
-		sale.setSeller( seller );
-		sale.setNft( nft );
+		sale.setSeller( currentLoggedInUser );
+//		sale.setNft( nft );
 				
 		model.addAttribute( "sale", sale );
 		
@@ -213,6 +225,29 @@ public class SaleController {
 		
 		return "saleSuccess";
 		
+	}
+	
+	@RequestMapping(value = "/browse", method = RequestMethod.GET)
+	public String browse(ModelMap modelMap) {
+		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
+		
+		if (currentLoggedInUser == null) return "/";
+		
+		List<Sale> sales = saleService.getAllSalesListedBy(currentLoggedInUser);
+		List<NFT> nfts = new ArrayList<>();
+
+		for (Sale sale : sales) {
+			String tokenId = sale.getNft().getTokenId();
+			NFT nft = nftService.getNFTById(tokenId);
+			
+			if (nft != null) {
+				nfts.add(nft);
+			}
+		}
+		
+		modelMap.addAttribute("nfts", nfts);
+		
+		return "browseNftsListedForSale";
 	}
 	
 }

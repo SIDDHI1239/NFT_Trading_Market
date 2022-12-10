@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.nft.services;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.sjsu.cmpe275.nft.entities.Bid;
 import edu.sjsu.cmpe275.nft.entities.Sale;
+import edu.sjsu.cmpe275.nft.entities.User;
 import edu.sjsu.cmpe275.nft.repos.BidRepository;
 import edu.sjsu.cmpe275.nft.repos.SaleRepository;
 
@@ -63,6 +66,13 @@ public class SaleServiceImpl implements SaleService {
 	@Transactional
 	public Bid getHighestBid( Long saleId ) {
 		return bidRepository.findTopBySaleIdOrderByBidValueDesc( saleId );
+	}
+	
+	@Override
+	@Transactional
+	public List<Sale> getAllSalesListedBy(User user) {
+		Long userId = user.getId();
+		return saleRepository.findAllSalesListedBy(userId);
 	}
 
 }

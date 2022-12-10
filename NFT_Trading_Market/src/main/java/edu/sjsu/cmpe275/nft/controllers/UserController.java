@@ -266,10 +266,10 @@ public class UserController {
 		List<Wallet> wallets = walletService.getWallets(walletId);
 		modelMap.addAttribute("wallets", wallets);
 		
-		if (amount < 0) {
-			modelMap.addAttribute("msg", "Amount cannot be negative for withdrawal or deposit.");
-			return "viewBalance";
-		}
+//		if (amount < 0) {
+//			modelMap.addAttribute("msg", "Amount cannot be negative for withdrawal or deposit.");
+//			return "viewBalance";
+//		}
 
 		if (action.equals("withdraw")) {
 			if (amount > balance) {

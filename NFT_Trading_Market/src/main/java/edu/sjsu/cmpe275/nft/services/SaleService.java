@@ -1,7 +1,10 @@
 package edu.sjsu.cmpe275.nft.services;
 
+import java.util.List;
+
 import edu.sjsu.cmpe275.nft.entities.Bid;
 import edu.sjsu.cmpe275.nft.entities.Sale;
+import edu.sjsu.cmpe275.nft.entities.User;
 
 public interface SaleService {
 
@@ -16,4 +19,6 @@ public interface SaleService {
 	Bid getPreviousActiveBid(Bid newBid);
 
 	Bid getHighestBid(Long saleId);
+	
+	List<Sale> getAllSalesListedBy(User user);
 }
