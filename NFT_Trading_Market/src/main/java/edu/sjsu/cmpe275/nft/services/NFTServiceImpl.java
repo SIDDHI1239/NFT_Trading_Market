@@ -44,4 +44,10 @@ public class NFTServiceImpl implements NFTService {
 		Long userId = user.getId();
 		return nftRepository.findAllNFTs(userId);
 	}
+	
+	@Override
+	@Transactional
+	public NFT getNFTById(String tokenId) {
+		return nftRepository.findById(tokenId).get();
+	}
 }
