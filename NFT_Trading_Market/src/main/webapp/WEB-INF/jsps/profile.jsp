@@ -12,7 +12,7 @@
 Click here to <a href="createNft">Create NFT</a><br>
 Click here to <a href="buyNft">Buy NFT</a><br>
 Click here to <a href="sellNft">Sell NFT</a><br>
-Click here to <a href="sale/browse">Browse NFT's listed for Sale</a><br>
+Click here to <a href="browse">Browse NFT's listed for Sale</a><br>
 Click here to <a href="viewBalance">Access Wallet</a><br>
 Click here to <a href="logout">Logout</a><br>
 </pre>
