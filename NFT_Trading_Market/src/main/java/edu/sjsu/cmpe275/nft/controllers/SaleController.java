@@ -36,7 +36,6 @@ import edu.sjsu.cmpe275.nft.services.SecurityService;
 import edu.sjsu.cmpe275.nft.services.WalletService;
 
 @Controller
-@RequestMapping("/sale")
 @CrossOrigin(origins = "*")
 public class SaleController {
 
