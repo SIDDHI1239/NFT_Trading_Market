@@ -54,7 +54,7 @@ public class SaleController {
 		
 		model.addAttribute( "cryptos", cryptocurrencyService.getAll( ) );
 		model.addAttribute( "saleTypes", Arrays.asList( SalesType.values() ) );
-		
+
 		User seller = securityService.getCurrentLoggedInUser();
 		
 		NFT nft = nftService.getNFTById( token );
@@ -109,7 +109,7 @@ public class SaleController {
 			message = "It is not possible to bid in a Priced sale.";
 			
 		} else if( sale.getClosingTime() != null ) {
-			
+
 			message = "It is not possible to bid in a closed auction.";
 			
 		}
@@ -204,7 +204,7 @@ public class SaleController {
 			return "saleMessage";
 			
 		}
-		
+
 		// TODO Check if the bid is the highest offer?
 		// TODO Change the ownership of the NFT
 		

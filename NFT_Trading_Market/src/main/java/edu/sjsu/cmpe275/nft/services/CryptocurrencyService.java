@@ -1,3 +1,4 @@
+
 package edu.sjsu.cmpe275.nft.services;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface CryptocurrencyService {
 	Cryptocurrency addCryptocurrency(Cryptocurrency cryptocurrency);
 	
 	Cryptocurrency createCryptocurrency(String symbol, String name);
+
 }
