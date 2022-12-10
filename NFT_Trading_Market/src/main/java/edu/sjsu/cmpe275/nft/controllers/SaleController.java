@@ -2,37 +2,27 @@ package edu.sjsu.cmpe275.nft.controllers;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import java.util.Arrays;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.ui.ModelMap;
-
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RequestMethod;
-
 
 import edu.sjsu.cmpe275.nft.entities.Bid;
 import edu.sjsu.cmpe275.nft.entities.NFT;
 import edu.sjsu.cmpe275.nft.entities.Sale;
-
 import edu.sjsu.cmpe275.nft.entities.User;
 import edu.sjsu.cmpe275.nft.entities.enums.SalesType;
 import edu.sjsu.cmpe275.nft.services.CryptocurrencyService;
@@ -40,22 +30,12 @@ import edu.sjsu.cmpe275.nft.services.NFTService;
 import edu.sjsu.cmpe275.nft.services.SaleService;
 import edu.sjsu.cmpe275.nft.services.SecurityService;
 
-import edu.sjsu.cmpe275.nft.entities.enums.SalesType;
-import edu.sjsu.cmpe275.nft.entities.User;
-import edu.sjsu.cmpe275.nft.services.CryptocurrencyService;
-import edu.sjsu.cmpe275.nft.services.SaleService;
-
-import edu.sjsu.cmpe275.nft.services.UserService;
-
 @Controller
 @RequestMapping("/sale")
 @CrossOrigin(origins = "*")
 public class SaleController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SaleController.class);
-	
-	@Autowired
-	private UserService userService;
 	
 	@Autowired
 	private SaleService saleService;
@@ -75,40 +55,23 @@ public class SaleController {
 		model.addAttribute( "cryptos", cryptocurrencyService.getAll( ) );
 		model.addAttribute( "saleTypes", Arrays.asList( SalesType.values() ) );
 		
-		Sale sale = new Sale();
+		User seller = securityService.getCurrentLoggedInUser();
 		
-		// Maybe get user from session?
-
-		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
+		NFT nft = nftService.getNFTById( token );
 		
-//		NFT nft = new NFT();
-//		
-//		if( !nft.getUser().equals(currentLoggedInUser) ) {
-//			
-//			model.addAttribute( "message", "NFT doesn't belong to user " + seller.getNickName() );
-//			
-//			return "saleMessage";
-//			
-//		}
-		
-		sale.setSeller( currentLoggedInUser );
-//		sale.setNft( nft );
-
-		User seller = userService.getById(1);
-		
-		NFT nft = new NFT();
-		
-		if( !nft.getUser().equals(seller) ) {
+		if( nft == null || !nft.getUser().equals(seller) ) {
 			
-			model.addAttribute( "message", "NFT doesn't belong to user " + seller.getNickName() );
+			model.addAttribute( "message", "NFT doesn't exist or doesn't belong to user " + seller.getNickName() );
 			
 			return "saleMessage";
 			
 		}
 		
+		Sale sale = new Sale();
+		
 		sale.setSeller( seller );
 		sale.setNft( nft );
-				
+
 		model.addAttribute( "sale", sale );
 		
 		return "saleForm";
@@ -133,24 +96,19 @@ public class SaleController {
 		
 		Bid bid = new Bid();
 		
-		// Maybe get user from session?
-		User bidder = userService.getById(1);
+		User bidder = securityService.getCurrentLoggedInUser();
 
 		Sale sale = saleService.getById( saleId );
-		
-		if( sale.getType() == SalesType.PRICED ) {
-			
-			message = "It is not possible to bid in a Priced sale.";
-			
-		}
 		
 		if( sale.getSeller().getId() == bidder.getId() ) {
 			
 			message = "Seller cannot bid on his own NFT auction.";
 			
-		}
-		
-		if( sale.getClosingTime() != null ) {
+		} else if( sale.getType() == SalesType.PRICED ) {
+			
+			message = "It is not possible to bid in a Priced sale.";
+			
+		} else if( sale.getClosingTime() != null ) {
 			
 			message = "It is not possible to bid in a closed auction.";
 			
@@ -188,7 +146,7 @@ public class SaleController {
 				
 			}
 			
-			highestBid.setExpirationTime(new Timestamp ( System.currentTimeMillis() ) );
+			highestBid.setExpirationTime( new Timestamp ( System.currentTimeMillis() ) );
 			
 			saleService.saveBid( highestBid );
 			
@@ -198,7 +156,7 @@ public class SaleController {
 		
 		if( previousBid != null ) {
 			
-			previousBid.setExpirationTime(new Timestamp ( System.currentTimeMillis() ) );
+			previousBid.setExpirationTime( new Timestamp ( System.currentTimeMillis() ) );
 			
 			saleService.saveBid( previousBid );
 			
@@ -223,6 +181,10 @@ public class SaleController {
 			
 			message = "Bid with ID " + bidId + " does not exist";
 			
+		} else if( !currentBid.getSale().getSeller().equals( securityService.getCurrentLoggedInUser() ) ) {
+		
+			message = "You can only accept offers from your own sales.";
+			
 		} else if( currentBid.getSale().getClosingTime() != null ) {
 			
 			message = "It is not possible to accept offers for sales that have already been closed.";
@@ -243,7 +205,6 @@ public class SaleController {
 			
 		}
 		
-		// TODO Check if the user is the current owner of that Sale
 		// TODO Check if the bid is the highest offer?
 		// TODO Change the ownership of the NFT
 		
