@@ -75,7 +75,7 @@ public class NFTController {
 		return "displayNfts";
 	}
 	
-	@RequestMapping(value = "/sellNft", method = RequestMethod.GET)
+	@RequestMapping(value = "/listNFT", method = RequestMethod.GET)
 	public String sellNFT(ModelMap modelMap) {
 		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
 		

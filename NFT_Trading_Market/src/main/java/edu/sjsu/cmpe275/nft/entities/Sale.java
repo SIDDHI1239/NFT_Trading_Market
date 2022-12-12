@@ -69,6 +69,15 @@ public class Sale {
 	@JoinColumn(name = "SYMBOL")
 	private Cryptocurrency cryptocurrency;
 	
+	public Sale ( ) { }
+	
+	public Sale ( User seller, NFT nft ) {
+		
+		this.seller = seller;
+		this.nft = nft;
+		
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -115,6 +124,14 @@ public class Sale {
 
 	public void setClosingTime(Timestamp closingTime) {
 		this.closingTime = closingTime;
+	}
+	
+	public List<Bid> getBids() {
+		return bids;
+	}
+
+	public void setBids(List<Bid> bids) {
+		this.bids = bids;
 	}
 
 	public User getSeller() {
