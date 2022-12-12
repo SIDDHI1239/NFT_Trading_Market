@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.sjsu.cmpe275.nft.entities.Bid;
+import edu.sjsu.cmpe275.nft.entities.Cryptocurrency;
 import edu.sjsu.cmpe275.nft.entities.NFT;
 import edu.sjsu.cmpe275.nft.entities.Sale;
 import edu.sjsu.cmpe275.nft.entities.User;
+import edu.sjsu.cmpe275.nft.entities.enums.Currency;
 import edu.sjsu.cmpe275.nft.entities.enums.SalesType;
 import edu.sjsu.cmpe275.nft.services.CryptocurrencyService;
 import edu.sjsu.cmpe275.nft.services.NFTService;
@@ -52,16 +57,16 @@ public class SaleController {
 	@Autowired
 	private NFTService nftService;
 	
-	@GetMapping("/new/{token}")
-	public String newSale( @PathVariable("token") String token, Model model ) {
+	@RequestMapping(value = "/getSaleForm", method = RequestMethod.POST)
+	public String newSale( @RequestParam("nftTokenId") String tokenId, ModelMap modelMap ) {
 		
-		model.addAttribute( "cryptos", cryptocurrencyService.getAll( ) );
-		model.addAttribute( "saleTypes", Arrays.asList( SalesType.values() ) );
+//		model.addAttribute( "cryptos", cryptocurrencyService.getAll( ) );
+//		model.addAttribute( "saleTypes", Arrays.asList( SalesType.values() ) );
 		
-		Sale sale = new Sale();
+//		Sale sale = new Sale();
 		
 		// Maybe get user from session?
-		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
+//		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
 		
 //		NFT nft = new NFT();
 //		
@@ -73,19 +78,46 @@ public class SaleController {
 //			
 //		}
 		
-		sale.setSeller( currentLoggedInUser );
+//		sale.setSeller( currentLoggedInUser );
 //		sale.setNft( nft );
 				
-		model.addAttribute( "sale", sale );
+//		modelMap.addAttribute( "sale", sale );
+		modelMap.addAttribute("nftTokenId", tokenId);
 		
-		return "saleForm";
+		return "saleForm1";
 		
 	}
 	
-	@PostMapping("/save")
-	public String createSale( @ModelAttribute("sale") Sale sale ) {
+	@RequestMapping(value = "/createSale", method = RequestMethod.POST)
+	public String createSale(@RequestParam("price") double price, @RequestParam("saleType") String saleType, @RequestParam("currency") String currency, @RequestParam("nftTokenId") String tokenId) {
+		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
+		
+		NFT nft = nftService.getNFTById(tokenId);
+		
+		Sale sale = new Sale();
 		
 		sale.setCreationTime( new Timestamp ( System.currentTimeMillis() ) );
+		sale.setSeller(currentLoggedInUser);
+		sale.setNft(nft);
+		sale.setExpectedValue(price);
+		
+		if ("Priced".equals(saleType)) {
+			sale.setType(SalesType.PRICED);
+		} else if ("Auction".equals(saleType)) {
+			sale.setType(SalesType.AUCTION);
+		}
+		
+		Cryptocurrency cryptoCurrency = new Cryptocurrency();
+		
+		if ("BTC".equals(currency)) {
+			cryptoCurrency.setSymbol(Currency.BTC.getKey());
+			cryptoCurrency.setName(Currency.BTC.getValue());
+		} else if ("ETH".equals(currency)) {
+			cryptoCurrency.setSymbol(Currency.ETH.getKey());
+			cryptoCurrency.setName(Currency.ETH.getValue());
+		}
+		
+		sale.setCryptocurrency(cryptoCurrency);
 		
 		saleService.save(sale);
 		

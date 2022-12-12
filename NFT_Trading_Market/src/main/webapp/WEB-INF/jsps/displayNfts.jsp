@@ -29,8 +29,8 @@
 					<td><c:out value="${nft.imageUrl}" /></td>
 					<td><c:out value="${nft.assetUrl}" /></td>
 					<td>
-						<form action="new/${nft.tokenId}" method="get">
-							<input type="hidden" name="nftId" value="${nft.tokenId}" />
+						<form action="getSaleForm" method="post">
+							<input type="hidden" name="nftTokenId" value="${nft.tokenId}" />
 							<input type="submit" value="Sell" />
 						</form>
 					</td>
