@@ -2,7 +2,6 @@ package edu.sjsu.cmpe275.nft.controllers;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -17,13 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.sjsu.cmpe275.nft.entities.Bid;
-import edu.sjsu.cmpe275.nft.entities.Cryptocurrency;
 import edu.sjsu.cmpe275.nft.entities.NFT;
 import edu.sjsu.cmpe275.nft.entities.Sale;
 import edu.sjsu.cmpe275.nft.entities.User;
@@ -86,6 +82,7 @@ public class SaleController {
 			
 		} 
 		
+
 		model.addAttribute( "sale", new Sale( seller, nft ) );
 		
 		return "saleForm";
@@ -94,7 +91,7 @@ public class SaleController {
 	
 	@PostMapping("/save")
 	public String createSale( @ModelAttribute("sale") Sale sale, ModelMap model ) {
-		
+
 		sale.setCreationTime( new Timestamp ( System.currentTimeMillis() ) );
 		
 		saleService.save(sale);

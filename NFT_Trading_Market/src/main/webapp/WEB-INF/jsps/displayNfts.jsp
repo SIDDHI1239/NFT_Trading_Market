@@ -11,6 +11,7 @@
 <body>
 	<div align="right">
 		<a href="/profile">Back to Profile</a> | <a href="/logout">Logout</a>
+
 	</div>
 	<br>
 	<c:choose>
