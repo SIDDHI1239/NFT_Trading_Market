@@ -23,11 +23,14 @@ public class SaleServiceImpl implements SaleService {
 	
 	private final BidRepository bidRepository;
 	
+	private final SecurityService securityService;
+	
 	@Autowired
-	public SaleServiceImpl(SaleRepository saleRepository, BidRepository bidRepository ) {
+	public SaleServiceImpl(SaleRepository saleRepository, BidRepository bidRepository, SecurityService securityService ) {
 		
 		this.saleRepository = saleRepository;
 		this.bidRepository = bidRepository;
+		this.securityService = securityService;
 	
 	}
 	
@@ -73,6 +76,16 @@ public class SaleServiceImpl implements SaleService {
 	public List<Sale> getAllSalesListedBy(User user) {
 		Long userId = user.getId();
 		return saleRepository.findAllSalesListedBy(userId);
+	}
+	
+	@Override
+	@Transactional
+	public List<Sale> getOpened( ) {
+		
+		User user = securityService.getCurrentLoggedInUser();
+		
+		return saleRepository.findAllOpenedSales( user.getId() );
+		
 	}
 
 }

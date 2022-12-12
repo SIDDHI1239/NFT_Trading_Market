@@ -28,7 +28,7 @@
 					<td><c:out value="${nft.description}" /></td>
 					<td><c:out value="${nft.imageUrl}" /></td>
 					<td><c:out value="${nft.assetUrl}" /></td>
-					<td><a href="sellNft?nftId=${nft.tokenId}">Sell</a></td>
+					<td><a href="sale/new/${nft.tokenId}">Sell</a></td>
 				</tr>
 			</c:forEach>
 		</table>

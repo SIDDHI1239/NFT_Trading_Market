@@ -44,11 +44,11 @@ public class Bid {
 	@JoinColumn(name = "BIDDER_ID", referencedColumnName = "USER_ID")
 	private User user;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -21,5 +21,7 @@ public interface SaleService {
 	Bid getHighestBid(Long saleId);
 	
 	List<Sale> getAllSalesListedBy(User user);
-
+	
+	List<Sale> getOpened( );
+	
 }
