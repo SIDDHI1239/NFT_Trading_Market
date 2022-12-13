@@ -232,7 +232,10 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public String getProfile() {
+	public String getProfile( ModelMap modelMap ) {
+		
+		modelMap.addAttribute("user", securityService.getCurrentLoggedInUser().getFirstName() );
+		
 		return "profile";
 
 	}
@@ -243,6 +246,14 @@ public class UserController {
 		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
 
 		List<Wallet> wallets = walletService.getWallets(currentLoggedInUser);
+		
+		for( Wallet wallet : wallets ) {
+			
+			wallet.setCommitedBalance( walletService.getTotalCommittedInAuctions( currentLoggedInUser, wallet.getWalletId().getCryptocurrency() ) );
+			
+			wallet.setBalance( wallet.getBalance() - wallet.getCommitedBalance() );
+			
+		}
 
 		modelMap.addAttribute("wallets", wallets);
 
@@ -297,7 +308,7 @@ public class UserController {
 
 		modelMap.addAttribute("msg", "Your Wallet balance is updated.");
 
-		return "viewBalance";
+		return viewBalance( modelMap );
 	}
 	
 	@RequestMapping(value = "/viewPersonalStats", method = RequestMethod.GET)
