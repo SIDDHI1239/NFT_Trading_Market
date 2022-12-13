@@ -49,11 +49,11 @@ public class Transaction {
 	@JoinColumn(name = "SYMBOL")
 	private Cryptocurrency cryptocurrency;
 
-	public Long getTransactionId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setTransactionId(Long transactionId) {
+	public void setId(Long transactionId) {
 		this.id = transactionId;
 	}
 

@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.nft.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import edu.sjsu.cmpe275.nft.entities.Transaction;
 import edu.sjsu.cmpe275.nft.entities.User;
 import edu.sjsu.cmpe275.nft.entities.Wallet;
 import edu.sjsu.cmpe275.nft.entities.enums.Provider;
+import edu.sjsu.cmpe275.nft.services.CryptocurrencyService;
 import edu.sjsu.cmpe275.nft.services.SecurityService;
+import edu.sjsu.cmpe275.nft.services.TransactionService;
 import edu.sjsu.cmpe275.nft.services.UserService;
 import edu.sjsu.cmpe275.nft.services.WalletService;
 
@@ -45,6 +49,12 @@ public class UserController {
 
 	@Autowired
 	private WalletService walletService;
+	
+	@Autowired
+	private TransactionService transactionService;
+	
+	@Autowired
+	private CryptocurrencyService cryptocurrencyService;
 
 	@RequestMapping(value = "/registerUser", method = RequestMethod.GET)
 	public String getRegister() {
@@ -288,6 +298,45 @@ public class UserController {
 		modelMap.addAttribute("msg", "Your Wallet balance is updated.");
 
 		return "viewBalance";
+	}
+	
+	@RequestMapping(value = "/viewPersonalStats", method = RequestMethod.GET)
+	public String viewPersonalStats(ModelMap modelMap) {
+		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
+		
+		List<Transaction> transactions = transactionService.getTransactions(currentLoggedInUser);
+		
+		System.out.println(transactions.toString());
+		
+		modelMap.addAttribute("transactions", transactions);
+		modelMap.addAttribute("msg", "Personal Transaction Statistics");
+		
+		return "personalStats";
+	}
+	
+	@RequestMapping(value = "/sortTransactions", method = RequestMethod.POST)
+	public String sortTransaction(@RequestParam("days") int days, @RequestParam("currency") String currency, ModelMap modelMap) {
+		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
+		
+//		List<Transaction> filteredTransactions = transactionService.filterTransactions(currentLoggedInUser, currency, days);
+		
+		List<Transaction> transactions = new ArrayList<>();
+		
+		if (days == 1) {
+			transactions = transactionService.filterLastOneDayTransactions(currentLoggedInUser, currency);
+		} else if (days == 7) {
+			transactions = transactionService.filterLastOneWeekTransactions(currentLoggedInUser, currency);
+		} else if (days == 30) {
+			transactions = transactionService.filterLastOneMonthTransactions(currentLoggedInUser, currency);
+		}
+		
+		System.out.println(transactions.toString());
+		
+//		modelMap.addAttribute("transactions", filteredTransactions);
+		modelMap.addAttribute("transactions", transactions);
+		modelMap.addAttribute("msg", "Displaying Transactions based on selection");
+		
+		return "personalStats";
 	}
 
 }

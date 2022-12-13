@@ -6,6 +6,10 @@
 		<title>Sale listed</title>
 	</head>
 	<body>
+	<div align="center">
 		<h2>Your sale was successfully created</h2>
+		<a href="profile">Back to Profile</a><br/>
+		<a href="logout">Logout</a>
+		</div>
 	</body>
 </html>
