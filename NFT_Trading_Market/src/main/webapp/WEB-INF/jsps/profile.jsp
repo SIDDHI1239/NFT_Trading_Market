@@ -14,6 +14,7 @@ Click here to <a href="sale/listOpened">Buy NFT</a><br>
 Click here to <a href="listNFT">My NFTs</a><br>
 Click here to <a href="sale">My sales</a><br>
 Click here to <a href="viewBalance">Access Wallet</a><br>
+Click here to <a href="viewPersonalStats">View Personal Transaction Statistics</a><br>
 Click here to <a href="logout">Logout</a><br>
 </pre>
 </body>
