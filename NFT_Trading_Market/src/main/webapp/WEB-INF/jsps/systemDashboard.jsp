@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,16 +29,31 @@ table, th, td {
 			</tr>
 			<tr>
 				<td>Active NFT's For Sale</td>
-				<td>$100</td>
+				<td>${countActiveSales}</td>
 			</tr>
 			<tr>
 				<td>Active Priced NFT's For Sale</td>
-				<td>$80</td>
+				<td>${countOfPricesNFT}</td>
 			</tr>
 			
 			<tr>
 				<td>Active Auctioned NFT's for Sale</td>
-				<td>$80</td>
+				<td>${countOfAuctionsNFT}</td>
+			</tr>
+			
+			<tr>
+				<td>Active NFT Listings With Offers</td>
+				<td>${countOfAuctionWithBids}</td>
+			</tr>
+			
+			<tr>
+				<td>Active NFT Listings Without Offers</td>
+				<td>${countOfAuctionWithoutBids}</td>
+			</tr>
+			
+			<tr>
+				<td>All Active Offers</td>
+				<td>${countActiveBids}</td>
 			</tr>
 		</table>
 

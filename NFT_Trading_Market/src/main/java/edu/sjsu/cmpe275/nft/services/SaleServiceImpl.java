@@ -103,5 +103,11 @@ public class SaleServiceImpl implements SaleService {
 	public int getAllActiveAuctionSales() {
 		return saleRepository.findActiveAuctionSales();
 	}
-
+	
+	@Override
+	@Transactional
+	public List<Sale> getActiveSalesForBid() {
+		return saleRepository.findAllActiveSales();
+	}
+	
 }

@@ -29,5 +29,7 @@ public interface SaleService {
 	int getAllActivePricedSales();
 
 	int getAllActiveAuctionSales();
+
+	List<Sale> getActiveSalesForBid();
 	
 }

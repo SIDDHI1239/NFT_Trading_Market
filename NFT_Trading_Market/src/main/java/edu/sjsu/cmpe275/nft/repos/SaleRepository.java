@@ -28,4 +28,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 	@Query("select count(*) from Sale where closing_time is null and type=0")
 	int findActiveAuctionSales();
 	
+	@Query("from Sale where closing_time is null")
+	List<Sale> findAllActiveSales();
+	
 }
