@@ -87,5 +87,23 @@ public class SaleServiceImpl implements SaleService {
 		return saleRepository.findAllOpenedSales( user.getId() );
 		
 	}
+	
+	@Override
+	@Transactional
+	public int getAllActiveSales() {
+		return saleRepository.findActiveSales();
+	}
+	
+	@Override
+	@Transactional
+	public int getAllActivePricedSales() {
+		return saleRepository.findActivePricedSales();
+	}
+	
+	@Override
+	@Transactional
+	public int getAllActiveAuctionSales() {
+		return saleRepository.findActiveAuctionSales();
+	}
 
 }

@@ -105,6 +105,11 @@
 			  	</div>
 			  	
 			  	<div class="card">
+			    	<span class="material-symbols-outlined">analytics</span>
+			    	<a class="button" href="/systemDashboard">System Dashboard and Statistics</a>
+			  	</div>
+			  	
+			  	<div class="card">
 			    	<span class="material-symbols-outlined">logout</span>
 			    	<a class="button" href="/logout" onclick="return confirm('Do you want to logout?');">Logout</a>
 			  	</div>

@@ -19,4 +19,13 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 	@Query("FROM Sale WHERE seller_id != :userId AND closing_time IS NULL")
 	List<Sale> findAllOpenedSales( @Param("userId") Long userId );
 	
+	@Query("select count(*) from sale where closing_time is null")
+	int findActiveSales();
+	
+	@Query("select count(*) from sale where closing_time is null and type=1")
+	int findActivePricedSales();
+	
+	@Query("select count(*) from sale where closing_time is null and type=0")
+	int findActiveAuctionSales();
+	
 }

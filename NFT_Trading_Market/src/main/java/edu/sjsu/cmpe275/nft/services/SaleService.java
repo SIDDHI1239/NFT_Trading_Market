@@ -23,5 +23,13 @@ public interface SaleService {
 	List<Sale> getAllSalesListedBy(User user);
 	
 	List<Sale> getOpened( );
+
+	int getAllActiveSales();
+
+	int getAllActivePricedSales();
+
+	int getAllActiveAuctionSales();
+	
+	
 	
 }
