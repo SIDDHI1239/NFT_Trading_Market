@@ -181,7 +181,7 @@ public class UserController {
 			return "login";
 		}
 
-		return "displayProfile";
+		return getProfile( modelMap );
 	}
 
 	@RequestMapping(value = "/googleLogin", method = RequestMethod.GET)
@@ -205,7 +205,7 @@ public class UserController {
 				return "registrationVerification";
 			}
 
-			return "profile";
+			return getProfile( modelMap );
 		}
 
 		String firstName = (String) attributes.get("given_name");

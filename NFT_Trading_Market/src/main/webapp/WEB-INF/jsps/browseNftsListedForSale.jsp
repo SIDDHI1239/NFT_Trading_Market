@@ -58,6 +58,7 @@
 									<th>Cancel</th>
 									<th>Highest Offer</th>
 									<th>Expiration time</th>
+									<th>Offers</th>
 								</tr>
 							</thead>
 							<c:forEach items="${sales}" var="sale">
@@ -99,6 +100,12 @@
 									<td class="center">
 										<c:choose>
 											<c:when test="${bid.bidValue > 0}"><fmt:formatDate type = "both" dateStyle = "short" timeStyle = "short" value = "${bid.expirationTime}" /></c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td class="center">
+								    	<c:choose>
+											<c:when test="${sale.type == 'Auction'}"><span class="action_btn"><a href="/sale/offers/${sale.id}">Display bids</a></span></c:when>
 											<c:otherwise>-</c:otherwise>
 										</c:choose>
 									</td>
