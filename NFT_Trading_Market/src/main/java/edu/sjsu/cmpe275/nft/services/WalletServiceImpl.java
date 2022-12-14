@@ -79,25 +79,33 @@ public class WalletServiceImpl implements WalletService {
 	
 	@Override
 	@Transactional
-	public void addToBalance(Long id, String symbol, double value) {
+	public double addToBalance(Long id, String symbol, double value) {
 		
 		Wallet wallet = walletRepository.findByIdAnySymbol(id, symbol);
 		
-		wallet.setBalance( wallet.getBalance() + value );
+		double newBalance = wallet.getBalance() + value;
+				
+		wallet.setBalance( newBalance );
 		
 		walletRepository.save( wallet );
+		
+		return newBalance;
 		
 	}
 	
 	@Override
 	@Transactional
-	public void subtractFromBalance(Long id, String symbol, double value) {
+	public double subtractFromBalance(Long id, String symbol, double value) {
 		
 		Wallet wallet = walletRepository.findByIdAnySymbol(id, symbol);
 		
-		wallet.setBalance( wallet.getBalance() - value );
+		double newBalance = wallet.getBalance() - value;
+		
+		wallet.setBalance( newBalance );
 		
 		walletRepository.save( wallet );
+		
+		return newBalance;
 		
 	}
 	

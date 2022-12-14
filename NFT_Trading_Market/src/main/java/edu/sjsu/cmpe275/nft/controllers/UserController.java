@@ -1,7 +1,9 @@
 package edu.sjsu.cmpe275.nft.controllers;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -312,6 +314,7 @@ public class UserController {
 		transaction.setCryptocurrency( wallet.getWalletId().getCryptocurrency() );
 		transaction.setTransactionDate( new Timestamp( System.currentTimeMillis() ) );
 		transaction.setTransctionAmount( amount );
+		transaction.setRemainderBalance( balance );
 		transaction.setUser( securityService.getCurrentLoggedInUser() );
 		transaction.setTransactionType( action.substring(0, 1).toUpperCase() + action.substring(1) );
 		
@@ -322,39 +325,44 @@ public class UserController {
 		return viewBalance( modelMap );
 	}
 	
-	@RequestMapping(value = "/viewPersonalStats", method = RequestMethod.GET)
+	@RequestMapping( value = "/viewPersonalStats", method = RequestMethod.GET )
 	public String viewPersonalStats(ModelMap modelMap) {
-		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
 		
-		List<Transaction> transactions = transactionService.getTransactions(currentLoggedInUser);
+		return sortTransaction( 1, "BTC", modelMap );
 		
-		System.out.println(transactions.toString());
-		
-		modelMap.addAttribute("transactions", transactions);
-		modelMap.addAttribute("msg", "Personal Transaction Statistics");
-		
-		return "personalStats";
 	}
 	
-	@RequestMapping(value = "/sortTransactions", method = RequestMethod.POST)
-	public String sortTransaction(@RequestParam("days") int days, @RequestParam("currency") String currency, ModelMap modelMap) {
+	@RequestMapping(value = "/viewPersonalStats", method = RequestMethod.POST)
+	public String sortTransaction( @RequestParam( name = "days", defaultValue = "1", required = false ) int days, 
+			                       @RequestParam( name = "currency", defaultValue = "BTC", required = false ) String currency, ModelMap modelMap ) {
+		
 		User currentLoggedInUser = securityService.getCurrentLoggedInUser();
 		
-//		List<Transaction> filteredTransactions = transactionService.filterTransactions(currentLoggedInUser, currency, days);
+		Calendar cal = Calendar.getInstance();
 		
-		List<Transaction> transactions = new ArrayList<>();
+		cal.setTimeInMillis( System.currentTimeMillis() );
 		
-		if (days == 1) {
-			transactions = transactionService.filterLastOneDayTransactions(currentLoggedInUser, currency);
-		} else if (days == 7) {
-			transactions = transactionService.filterLastOneWeekTransactions(currentLoggedInUser, currency);
-		} else if (days == 30) {
-			transactions = transactionService.filterLastOneMonthTransactions(currentLoggedInUser, currency);
+		cal.add( Calendar.DAY_OF_MONTH, - days );
+		
+		List<String> currencies = new ArrayList<>();
+		
+		if( currency.equals("ALL") ) {
+			
+			currencies.add("BTC");
+			currencies.add("ETH");
+			
+		} else {
+			
+			currencies.add(currency);
+			
 		}
+		
+		List<Transaction> transactions = transactionService.filterTransactions( currentLoggedInUser, currencies, new Date( cal.getTime().getTime() ) );
 		
 		System.out.println(transactions.toString());
 		
-//		modelMap.addAttribute("transactions", filteredTransactions);
+		modelMap.addAttribute("days", days);
+		modelMap.addAttribute("currency", currency);
 		modelMap.addAttribute("transactions", transactions);
 		modelMap.addAttribute("msg", "Displaying Transactions based on selection");
 		

@@ -2,6 +2,7 @@ package edu.sjsu.cmpe275.nft.controllers;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -17,12 +18,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.sjsu.cmpe275.nft.entities.Bid;
 import edu.sjsu.cmpe275.nft.entities.NFT;
 import edu.sjsu.cmpe275.nft.entities.Sale;
+import edu.sjsu.cmpe275.nft.entities.Transaction;
 import edu.sjsu.cmpe275.nft.entities.User;
 import edu.sjsu.cmpe275.nft.entities.Wallet;
 import edu.sjsu.cmpe275.nft.entities.enums.SalesType;
@@ -30,6 +33,7 @@ import edu.sjsu.cmpe275.nft.services.CryptocurrencyService;
 import edu.sjsu.cmpe275.nft.services.NFTService;
 import edu.sjsu.cmpe275.nft.services.SaleService;
 import edu.sjsu.cmpe275.nft.services.SecurityService;
+import edu.sjsu.cmpe275.nft.services.TransactionService;
 import edu.sjsu.cmpe275.nft.services.WalletService;
 
 @Controller
@@ -53,6 +57,9 @@ public class SaleController {
 	
 	@Autowired
 	private WalletService walletService;
+	
+	@Autowired
+	private TransactionService transactionService;
 	
 	@GetMapping("/new/{token}")
 	public String newSale( @PathVariable("token") String token, ModelMap model ) {
@@ -111,7 +118,7 @@ public class SaleController {
 		
 		Sale sale = saleService.getById( saleId );
 		
-		if( sale.getType() == SalesType.PRICED  ) {
+		if( sale.getType() == SalesType.Priced  ) {
 			
 			forward = "forward:/sale/buy/" + sale.getId();
 			
@@ -138,7 +145,7 @@ public class SaleController {
 			
 			model.addAttribute( "msg", message );
 			
-			return openedSale( model );
+			return openedSale( 0, 100000, "ALL", model );
 			
 		} 
 		
@@ -161,7 +168,7 @@ public class SaleController {
 			
 			message = "Seller cannot bid on his own NFT auction.";
 			
-		} else if( sale.getType() == SalesType.PRICED ) {
+		} else if( sale.getType() == SalesType.Priced ) {
 			
 			message = "It is not possible to bid in a Priced sale.";
 			
@@ -175,7 +182,7 @@ public class SaleController {
 			
 			model.addAttribute( "msg", message );
 			
-			return openedSale( model );
+			return openedSale( 0, 100000, "ALL", model );
 			
 		}
 		
@@ -209,7 +216,7 @@ public class SaleController {
 			
 			model.addAttribute( "msg", message );
 			
-			return openedSale( model );
+			return openedSale( 0, 100000, "ALL", model );
 			
 		} 
 		
@@ -303,7 +310,7 @@ public class SaleController {
 		
 		model.addAttribute( "msg", "Your offer has been sent successfully." );
 		
-		return openedSale( model ) ;
+		return openedSale( 0, 100000, "ALL", model );
 		
 	}
 	
@@ -381,7 +388,7 @@ public class SaleController {
 		
 		Sale sale = saleService.getById( saleId );
 		
-		if( sale.getType() == SalesType.PRICED  ) {
+		if( sale.getType() == SalesType.Priced  ) {
 			
 			forward = "forward:/sale/cancel/priced/" + sale.getId();
 			
@@ -484,21 +491,53 @@ public class SaleController {
 		
 		model.addAttribute( "msg", message );
 		
-		return openedSale( model );
+		return openedSale( 0, 100000, "ALL", model );
 		
 	}
 	
 	@GetMapping("/listOpened")
-	public String openedSale( ModelMap modelMap) {
+	public String viewPersonalStats( ModelMap model ) {
 		
-		try {
-		    Thread.sleep( 500 );
-		} catch (InterruptedException ie) {
-		    Thread.currentThread().interrupt();
+		return openedSale( 0, 100000, "ALL", model );
+		
+	}
+	
+	@PostMapping("/listOpened")
+	public String openedSale( @RequestParam( name = "minPrice", defaultValue = "0", required = false )  double minPrice, 
+			                  @RequestParam( name = "maxPrice", defaultValue = "100000", required = false ) double maxPrice,
+                              @RequestParam( name = "currency", defaultValue = "ALL", required = false ) String currency, ModelMap modelMap ) {
+		
+		List<String> currencies = new ArrayList<>();
+		
+		if( minPrice > maxPrice ) {
+			
+			minPrice = 0;
+			maxPrice = 100000;
+			
+			currency = "ALL";
+			
+			modelMap.addAttribute( "msg", "The minimum price cannot be greater than the maximum price." );
+			
+		} else if( maxPrice == 0 ) 
+			
+			maxPrice = 100000;
+
+		if( currency.equals("ALL") ) {
+			
+			currencies.add("BTC");
+			currencies.add("ETH");
+			
+		} else {
+			
+			currencies.add(currency);
+			
 		}
 		
-		List<Sale> sales = saleService.getOpened( );
+		List<Sale> sales = saleService.getOpened( minPrice, maxPrice, currencies );
 		
+		modelMap.addAttribute( "lowPrice", minPrice );
+		modelMap.addAttribute( "highPrice", maxPrice );
+		modelMap.addAttribute( "currency", currency );
 		modelMap.addAttribute( "userId", securityService.getCurrentLoggedInUser().getId() );
 		modelMap.addAttribute( "sales", sales );
 		
@@ -513,7 +552,7 @@ public class SaleController {
 		
 		for ( Sale sale : sales ) {
 			
-			if( sale.getType() == SalesType.AUCTION && sale.getBids() != null) {
+			if( sale.getType() == SalesType.Auction && sale.getBids() != null) {
 				
 				if( sale.getClosingTime() == null ) {
 					
@@ -609,9 +648,37 @@ public class SaleController {
 	
 	private void updateWallet( Sale sale ) {
 		
-		walletService.addToBalance( sale.getSeller().getId(), sale.getCryptocurrency().getSymbol(), sale.getReceivedValue() );
+		Timestamp now = new Timestamp( System.currentTimeMillis() );
 		
-		walletService.subtractFromBalance( sale.getBuyer().getId(), sale.getCryptocurrency().getSymbol(), sale.getReceivedValue() );
+		double saleBalance = walletService.addToBalance( sale.getSeller().getId(), sale.getCryptocurrency().getSymbol(), sale.getReceivedValue() );
+		
+		Transaction saleTransaction = new Transaction();
+		
+		saleTransaction.setTransactionType( "Sale" );
+		saleTransaction.setCryptocurrency( sale.getCryptocurrency() );
+		saleTransaction.setTransactionDate( now );
+		saleTransaction.setTransctionAmount( sale.getReceivedValue() );
+		saleTransaction.setRemainderBalance( saleBalance );
+		saleTransaction.setUser( sale.getSeller() );
+		saleTransaction.setNft( sale.getNft() );
+		saleTransaction.setSale( sale );
+		
+		transactionService.saveTransaction(saleTransaction);
+		
+		double purchaseBalance = walletService.subtractFromBalance( sale.getBuyer().getId(), sale.getCryptocurrency().getSymbol(), sale.getReceivedValue() );
+		
+		Transaction purchaseTransaction = new Transaction();
+		
+		purchaseTransaction.setTransactionType( "Purchase" );
+		purchaseTransaction.setCryptocurrency( sale.getCryptocurrency() );
+		purchaseTransaction.setTransactionDate( now );
+		purchaseTransaction.setTransctionAmount( sale.getReceivedValue() );
+		purchaseTransaction.setRemainderBalance( purchaseBalance );
+		purchaseTransaction.setUser( sale.getBuyer() );
+		purchaseTransaction.setNft( sale.getNft() );
+		purchaseTransaction.setSale( sale );
+		
+		transactionService.saveTransaction(purchaseTransaction);
 		
 	}
 	
@@ -643,7 +710,7 @@ public class SaleController {
 			
 			message = "Seller cannot buy his own NFT.";
 			
-		} else if( sale.getType() == SalesType.AUCTION ) {
+		} else if( sale.getType() == SalesType.Auction ) {
 			
 			message = "It isn't possible to buy a NFT from an Auction sale.";
 			

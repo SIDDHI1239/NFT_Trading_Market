@@ -22,14 +22,12 @@ public interface SaleService {
 	
 	List<Sale> getAllSalesListedBy(User user);
 	
-	List<Sale> getOpened( );
+	List<Sale> getOpened( double lowPrice, double highPrice, List<String> currencies );
 
 	int getAllActiveSales();
 
 	int getAllActivePricedSales();
 
 	int getAllActiveAuctionSales();
-	
-	
 	
 }

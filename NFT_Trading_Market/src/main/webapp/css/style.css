@@ -3,11 +3,11 @@
     text-align:center;
 }
 
-.camel {
+#main{
 	
-	text-transform: lowercase;
-	text-transform: capitalize;
-	
+	margin: auto;
+  	width: 70%;
+  	padding: 10px;
 }
 
 table {
@@ -91,4 +91,10 @@ table>tbody>tr:nth-child(even) {
 
 table>tbody>tr:hover{
     filter: drop-shadow(0px 2px 6px #0002);
+}
+
+tfoot input {
+	width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
 }

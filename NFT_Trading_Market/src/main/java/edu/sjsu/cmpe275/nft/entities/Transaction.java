@@ -48,6 +48,11 @@ public class Transaction {
 	@ManyToOne
 	@JoinColumn(name = "SYMBOL")
 	private Cryptocurrency cryptocurrency;
+	
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "SALE_ID")
+	private Sale sale;
 
 	public Long getId() {
 		return id;
@@ -112,4 +117,13 @@ public class Transaction {
 	public void setCryptocurrency(Cryptocurrency cryptocurrency) {
 		this.cryptocurrency = cryptocurrency;
 	}
+
+	public Sale getSale() {
+		return sale;
+	}
+
+	public void setSale(Sale sale) {
+		this.sale = sale;
+	}
+	
 }

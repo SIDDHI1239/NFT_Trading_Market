@@ -80,11 +80,9 @@ public class SaleServiceImpl implements SaleService {
 	
 	@Override
 	@Transactional
-	public List<Sale> getOpened( ) {
+	public List<Sale> getOpened( double lowPrice, double highPrice, List<String> currencies ) {
 		
-		User user = securityService.getCurrentLoggedInUser();
-		
-		return saleRepository.findAllOpenedSales( user.getId() );
+		return saleRepository.findAllOpenedSales( securityService.getCurrentLoggedInUser().getId(), lowPrice, highPrice, currencies );
 		
 	}
 	

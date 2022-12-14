@@ -20,9 +20,9 @@ public interface WalletService {
 	
 	List<Wallet> getWallets(Long id);
 	
-	void addToBalance( Long id, String symbol, double value );
+	double addToBalance( Long id, String symbol, double value );
 	
-	void subtractFromBalance( Long id, String symbol, double value );
+	double subtractFromBalance( Long id, String symbol, double value );
 	
 	double getTotalCommittedInAuctions( User user, Cryptocurrency cryptocurrency );
 	

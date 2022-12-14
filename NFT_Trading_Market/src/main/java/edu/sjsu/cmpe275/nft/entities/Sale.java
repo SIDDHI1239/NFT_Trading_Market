@@ -49,6 +49,10 @@ public class Sale {
 	@OneToMany(mappedBy = "sale")
 	private List<Bid> bids;
 	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "sale")
+	private List<Transaction> transactions;
+	
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "TOKEN_ID")

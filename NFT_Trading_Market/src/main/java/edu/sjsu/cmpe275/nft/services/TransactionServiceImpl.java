@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.nft.services;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -30,31 +31,10 @@ public class TransactionServiceImpl implements TransactionService {
 		return transactionRepository.findAllByUserId(userId);
 	}
 	
-//	@Override
-//	@Transactional
-//	public List<Transaction> filterTransactions(User user, String currency, int days) {
-//		Long userId = user.getId();
-//		return transactionRepository.filterTransactions(userId, currency, days);
-//	}
-	
 	@Override
 	@Transactional
-	public List<Transaction> filterLastOneDayTransactions(User user, String currency) {
-		Long userId = user.getId();
-		return transactionRepository.filterLastOneDayTransactions(userId, currency);
+	public List<Transaction> filterTransactions(User user, List<String> currencies, Date date) {
+		return transactionRepository.filterTransactions( user.getId(), currencies, date);
 	}
 	
-	@Override
-	@Transactional
-	public List<Transaction> filterLastOneWeekTransactions(User user, String currency) {
-		Long userId = user.getId();
-		return transactionRepository.filterLastOneWeekTransactions(userId, currency);
-	}
-	
-	@Override
-	@Transactional
-	public List<Transaction> filterLastOneMonthTransactions(User user, String currency) {
-		Long userId = user.getId();
-		return transactionRepository.filterLastOneMonthTransactions(userId, currency);
-	}
 }
