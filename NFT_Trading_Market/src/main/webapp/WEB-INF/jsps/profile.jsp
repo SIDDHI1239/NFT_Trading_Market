@@ -20,7 +20,7 @@
 
 			.grid-container {
 			  	display: grid;
-			  	grid-template-columns: auto auto auto;
+			  	grid-template-columns: auto auto auto auto;
 			  	row-gap: 100px;
 			  	margin-top: 100px;
 			  	max-width: 800px;
@@ -97,6 +97,11 @@
 			  	<div class="card">
 			    	<span class="material-symbols-outlined">account_balance_wallet</span>
 			    	<a class="button" href="/viewBalance">Access Wallet</a>
+			  	</div>
+			  	
+			  	<div class="card">
+			    	<span class="material-symbols-outlined">analytics</span>
+			    	<a class="button" href="/viewPersonalStats">Personal Transaction Statistics</a>
 			  	</div>
 			  	
 			  	<div class="card">

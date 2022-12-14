@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.nft.controllers;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -302,10 +303,20 @@ public class UserController {
 		} else if (action.equals("deposit")) {
 			balance += amount;
 		}
-
+		
 		wallet.setBalance(balance);
 		walletService.updateWallet(wallet);
-
+		
+		Transaction transaction = new Transaction();
+		
+		transaction.setCryptocurrency( wallet.getWalletId().getCryptocurrency() );
+		transaction.setTransactionDate( new Timestamp( System.currentTimeMillis() ) );
+		transaction.setTransctionAmount( amount );
+		transaction.setUser( securityService.getCurrentLoggedInUser() );
+		transaction.setTransactionType( action.substring(0, 1).toUpperCase() + action.substring(1) );
+		
+		transactionService.saveTransaction(transaction);
+		
 		modelMap.addAttribute("msg", "Your Wallet balance is updated.");
 
 		return viewBalance( modelMap );

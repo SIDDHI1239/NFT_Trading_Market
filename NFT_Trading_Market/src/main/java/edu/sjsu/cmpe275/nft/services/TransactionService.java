@@ -7,6 +7,8 @@ import edu.sjsu.cmpe275.nft.entities.User;
 
 public interface TransactionService {
 
+	Transaction saveTransaction( Transaction transaction);
+	
 	List<Transaction> getTransactions(User user);
 	
 //	List<Transaction> filterTransactions(User user, String currency, int days);
