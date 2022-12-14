@@ -19,13 +19,13 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 	@Query("FROM Sale WHERE seller_id != :userId AND expected_value >= :lowPrice AND expected_value <= :highPrice AND symbol IN (:currencies) AND closing_time IS NULL")
 	List<Sale> findAllOpenedSales( @Param("userId") Long userId, @Param("lowPrice") double lowPrice, @Param("highPrice") double highPrice, @Param("currencies") List<String> currencies );
 	
-	@Query("select count(*) from sale where closing_time is null")
+	@Query("select count(*) from Sale where closing_time is null")
 	int findActiveSales();
 	
-	@Query("select count(*) from sale where closing_time is null and type=1")
+	@Query("select count(*) from Sale where closing_time is null and type=1")
 	int findActivePricedSales();
 	
-	@Query("select count(*) from sale where closing_time is null and type=0")
+	@Query("select count(*) from Sale where closing_time is null and type=0")
 	int findActiveAuctionSales();
 	
 }

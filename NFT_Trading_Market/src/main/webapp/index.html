@@ -1,16 +1,48 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Welcome to NFT Trading Market Application. A perfect
-	place to start with buying and selling NFT's with authentication.</title>
-</head>
-<body>
-<h2>Welcome to NFT Market Place :</h2>
-<pre>
-New user? Click here to register <a href="registerUser">Register</a><br/>
-Existing users click here to login <a href="localLogin">Login</a><br/>
-Click here to login with Google <a href="googleLogin">Login with Google</a><br/>
-</pre>
-</body>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Welcome to NFT Trading Market Application. A perfect place to start with buying and selling NFT's with authentication.</title>
+		
+		<style>
+		
+			td { vertical-align:center; text-align:right; }
+			
+		</style>
+		
+	</head>
+	<body>
+		<div align="center">
+			<table border="0" cellpadding="5">
+			
+				<caption>
+					<h2>Welcome to NFT Market Place</h2>
+				</caption>
+				
+				<form action="/localLogin" method="post">
+				
+					<tbody>
+						
+						<tr>
+						    <td>E-mail: </td>
+						    <td><input type="email" name="email" required/></td>
+						</tr>
+						<tr>
+						    <td>Password: </td>
+						    <td><input type="password" name="password" required/></td>
+						</tr>
+						<tr>
+						    <td colspan="2"><input type="submit" value="Login" /></td>
+						</tr>
+						<tr>
+						    <td colspan="2" id="text">New user? <a href="registerUser">Register</a> | <a href="googleLogin">Login with Google</a></td>
+						</tr>
+						
+					</tbody>
+					
+					</form>
+	
+			</table>
+		</div>
+	</body>
 </html>
