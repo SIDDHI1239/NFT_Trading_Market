@@ -96,17 +96,17 @@
 			  	
 			  	<div class="card">
 			    	<span class="material-symbols-outlined">account_balance_wallet</span>
-			    	<a class="button" href="/viewBalance">Access Wallet</a>
+			    	<a class="button" href="/viewBalance">My wallet</a>
 			  	</div>
 			  	
 			  	<div class="card">
-			    	<span class="material-symbols-outlined">analytics</span>
-			    	<a class="button" href="/viewPersonalStats">Personal Transaction Statistics</a>
+			    	<span class="material-symbols-outlined">receipt_long</span>
+			    	<a class="button" href="/viewPersonalStats">My transactions</a>
 			  	</div>
 			  	
 			  	<div class="card">
-			    	<span class="material-symbols-outlined">analytics</span>
-			    	<a class="button" href="/systemDashboard">System Dashboard and Statistics</a>
+			    	<span class="material-symbols-outlined">empty_dashboard</span>
+			    	<a class="button" href="/systemDashboard">Dashboard</a>
 			  	</div>
 			  	
 			  	<div class="card">
@@ -117,17 +117,6 @@
 			</div>
 			
 		</div>
-		
-	<!-- 
-	<pre>
-	Click here to <a href="createNft">Create NFT</a><br>
-	Click here to <a href="sale/listOpened">Buy NFT</a><br>
-	Click here to <a href="listNFT">My NFTs</a><br>
-	Click here to <a href="sale">My sales</a><br>
-	Click here to <a href="viewBalance">Access Wallet</a><br>
-	Click here to <a href="viewPersonalStats">View Personal Transaction Statistics</a><br>
-	Click here to <a href="logout">Logout</a><br>
-	</pre>
-	-->
+
 	</body>
 </html>

@@ -98,6 +98,48 @@ public class SaleController {
 		
 	}
 	
+	@GetMapping("/offers/{saleId}")
+	public String displayOffers( @PathVariable("saleId") Long saleId, ModelMap model ) {
+		
+		String message = null;
+		
+		User seller = securityService.getCurrentLoggedInUser();
+		
+		Sale sale = saleService.getById( saleId );
+		
+		if( ! sale.getSeller().equals(seller) ) {
+			
+			message = "You can only see offers from your own sale.";
+			
+		} else if( sale.getType() == SalesType.Priced ) {
+			
+			message = "It's not possible see offers from Priced sale.";
+			
+		} else if( sale.getBids().isEmpty() && sale.getClosingTime() != null ) {
+			
+			message = "This sale had no offers.";
+			
+		} else if( sale.getBids().isEmpty() ) {
+			
+			message = "This sale has no offers yet.";
+			
+		}
+		
+		if( message != null ) {
+			
+			model.addAttribute( "msg", message );
+			
+			return mySales( model );
+			
+		}
+		
+		model.addAttribute( "bids", sale.getBids() );
+		model.addAttribute( "highestBid", getHighestActiveBid( sale.getBids() ) );
+		
+		return "displayBids";
+		
+	}
+	
 	@PostMapping("/save")
 	public String createSale( @ModelAttribute("sale") Sale sale, ModelMap model ) {
 
