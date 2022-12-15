@@ -162,6 +162,12 @@ public class UserController {
 			modelMap.addAttribute("msg", "User not found with email" + email);
 			return "login";
 		} else {
+
+			boolean match = bCryptPasswordEncoder.matches(password, user.getPassword());
+			if (!match) {
+				modelMap.addAttribute("msg", "Invalid email or password. Please try again.");
+				return "login";
+			}
 			if (!user.isVerified()) {
 				modelMap.addAttribute("msg", "Email address not verified. Please verify email first.");
 				return "login";
