@@ -6,7 +6,6 @@ import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -18,9 +17,6 @@ import edu.sjsu.cmpe275.nft.repos.UserRepository;
 @Service
 public class UserServiceImpl implements UserService {
 	
-	@Value("${server.port}")
-	private String PORT;
-
 	@Autowired
 	private UserRepository userRepository;
 
@@ -48,15 +44,15 @@ public class UserServiceImpl implements UserService {
 	@Async
 	@Override
 	public void sendEmailForVerification(User user) throws Exception {
-		String host = InetAddress.getLocalHost().getHostName();
+		String host;
 		MimeMessage message = mailSender.createMimeMessage();
 
 		try {
-//			host = InetAddress.getLocalHost().getHostName();
+			host = InetAddress.getLocalHost().getHostName(); // get the host name of machine where the application is currenlty running on
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setTo(user.getEmail());
 			helper.setSubject("Registration Verification");
-			helper.setText("Please click here http://localhost:" + PORT +"/confirmAccount?token=" + user.getToken() + " to verify your account.");
+			helper.setText("Please click here http://" + host + "/confirmAccount?token=" + user.getToken() + " to verify your account.");
 			mailSender.send(message);
 		} catch (Exception ex) {
 			throw ex;
