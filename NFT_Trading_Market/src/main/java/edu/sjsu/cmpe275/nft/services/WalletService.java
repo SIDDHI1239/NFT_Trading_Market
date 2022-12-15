@@ -26,4 +26,6 @@ public interface WalletService {
 	
 	double getTotalCommittedInAuctions( User user, Cryptocurrency cryptocurrency );
 	
+	double totalBalanceBySymbol( String symbol );
+	
 }

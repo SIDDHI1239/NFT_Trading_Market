@@ -29,7 +29,7 @@ public class Transaction {
 	private Timestamp transactionDate;
 	
 	@Column(name = "TRANSACTION_AMOUNT")
-	private double transctionAmount;
+	private double transactionAmount;
 	
 	@Column(name = "REMAINDER_BALANCE")
 	private double remainderBalance;
@@ -78,12 +78,12 @@ public class Transaction {
 		this.transactionDate = transactionDate;
 	}
 
-	public double getTransctionAmount() {
-		return transctionAmount;
+	public double getTransactionAmount() {
+		return transactionAmount;
 	}
 
-	public void setTransctionAmount(double transctionAmount) {
-		this.transctionAmount = transctionAmount;
+	public void setTransactionAmount(double transactionAmount) {
+		this.transactionAmount = transactionAmount;
 	}
 
 	public double getRemainderBalance() {

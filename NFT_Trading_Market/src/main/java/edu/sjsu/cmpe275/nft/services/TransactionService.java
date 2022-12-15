@@ -13,5 +13,7 @@ public interface TransactionService {
 	List<Transaction> getTransactions(User user);
 	
 	List<Transaction> filterTransactions(User user, List<String> currencies, Date date);
+	
+	List<Transaction> filterSystemTransactions(List<String> currencies, Date date);
 
 }

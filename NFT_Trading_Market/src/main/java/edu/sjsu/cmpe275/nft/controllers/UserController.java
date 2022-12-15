@@ -313,7 +313,7 @@ public class UserController {
 		
 		transaction.setCryptocurrency( wallet.getWalletId().getCryptocurrency() );
 		transaction.setTransactionDate( new Timestamp( System.currentTimeMillis() ) );
-		transaction.setTransctionAmount( amount );
+		transaction.setTransactionAmount( amount );
 		transaction.setRemainderBalance( balance );
 		transaction.setUser( securityService.getCurrentLoggedInUser() );
 		transaction.setTransactionType( action.substring(0, 1).toUpperCase() + action.substring(1) );

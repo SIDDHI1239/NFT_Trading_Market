@@ -129,5 +129,12 @@ public class WalletServiceImpl implements WalletService {
 		return totalCommitted;
 		
 	}
+	
+	@Override
+	public double totalBalanceBySymbol( String symbol ) {
+		
+		return walletRepository.totalBalanceBySymbol(symbol);
+		
+	}
 
 }

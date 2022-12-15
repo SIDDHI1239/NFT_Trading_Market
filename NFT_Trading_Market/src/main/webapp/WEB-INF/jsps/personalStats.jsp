@@ -92,7 +92,7 @@
 								<td>${transaction.transactionType}</td>
 								<td>${transaction.nft.name}</td>
 								<td class="center">${transaction.cryptocurrency.symbol}</td>
-								<td class="center"><fmt:formatNumber type="number" maxFractionDigits="5" value="${transaction.transctionAmount}"/></td>
+								<td class="center"><fmt:formatNumber type="number" maxFractionDigits="5" value="${transaction.transactionAmount}"/></td>
 								<td class="center"><fmt:formatNumber type="number" maxFractionDigits="5" value="${transaction.remainderBalance}"/></td>
 								<td class="center">${transaction.sale.type}</td>
 								<td>${transaction.sale.seller.nickName}</td>

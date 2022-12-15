@@ -699,7 +699,7 @@ public class SaleController {
 		saleTransaction.setTransactionType( "Sale" );
 		saleTransaction.setCryptocurrency( sale.getCryptocurrency() );
 		saleTransaction.setTransactionDate( now );
-		saleTransaction.setTransctionAmount( sale.getReceivedValue() );
+		saleTransaction.setTransactionAmount( sale.getReceivedValue() );
 		saleTransaction.setRemainderBalance( saleBalance );
 		saleTransaction.setUser( sale.getSeller() );
 		saleTransaction.setNft( sale.getNft() );
@@ -714,7 +714,7 @@ public class SaleController {
 		purchaseTransaction.setTransactionType( "Purchase" );
 		purchaseTransaction.setCryptocurrency( sale.getCryptocurrency() );
 		purchaseTransaction.setTransactionDate( now );
-		purchaseTransaction.setTransctionAmount( sale.getReceivedValue() );
+		purchaseTransaction.setTransactionAmount( sale.getReceivedValue() );
 		purchaseTransaction.setRemainderBalance( purchaseBalance );
 		purchaseTransaction.setUser( sale.getBuyer() );
 		purchaseTransaction.setNft( sale.getNft() );

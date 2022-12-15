@@ -37,4 +37,10 @@ public class TransactionServiceImpl implements TransactionService {
 		return transactionRepository.filterTransactions( user.getId(), currencies, date);
 	}
 	
+	@Override
+	@Transactional
+	public List<Transaction> filterSystemTransactions(List<String> currencies, Date date) {
+		return transactionRepository.filterSystemTransactions(currencies, date);
+	}
+	
 }
