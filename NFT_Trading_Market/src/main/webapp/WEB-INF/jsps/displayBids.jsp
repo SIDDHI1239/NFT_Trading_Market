@@ -35,7 +35,7 @@
 	<body>
 		<div align="center" id="main">
 			<div align="right">
-				<a href="/profile">Back to Profile</a> | <a href="/logout">Logout</a>
+				<a href="/profile">Back to Profile</a> | <a href="/logout" onclick="return confirm('Do you want to logout?');">Logout</a>
 			</div>
 			</br>
 					
@@ -71,7 +71,7 @@
 									</c:when>
 									<c:when test="${bid.id == highestBid.id}">
 										<c:set var = "status" value = "Highest bid"/>
-										<c:set var = "acceptOffer" value = "<span class='action_btn'><a href='/sale/acceptOffer/${bid.id}'>Accept Offer</a></span>"/>
+										<c:set var = "acceptOffer" value = "<span class='action_btn'><a href='/sale/acceptOffer/${bid.id}' onclick=\"return confirm('Do you accept the offer?');\">Accept Offer</a></span>"/>
 									</c:when>
 									<c:when test="${bid.expirationTime gt now}">
 										<c:set var = "status" value = "Active"/>

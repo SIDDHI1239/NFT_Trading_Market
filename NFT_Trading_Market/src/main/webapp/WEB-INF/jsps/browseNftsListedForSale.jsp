@@ -18,7 +18,8 @@
 		<script>
 			$(document).ready(function () {
 			    $('#sales_table').DataTable({
-			    	columnDefs: [ { orderable: false, targets: [0,2,3,5,6,7,8,9,10] } ],
+			    	info: false,
+			    	columnDefs: [ { orderable: false, targets: [0,2,3,5,6,7,8,9,10,11] } ],
 			        order: [[4, 'desc']],
 			    });
 			});
@@ -27,20 +28,17 @@
 	<body>
 		<div align="center" id="main">
 			<div align="right">
-				<a href="/profile">Back to Profile</a> | <a href="/logout">Logout</a>
+				<a href="/profile">Back to Profile</a> | <a href="/logout" onclick="return confirm('Do you want to logout?');">Logout</a>
 			</div>
 			</br>
-			<c:choose>
-				<c:when test="${sales.size() == 0}">
-					<div align="center"> <h3>You haven't created any sales yet.</h3></div>
-				</c:when>
-				<c:otherwise>
-					
+
 					<div align="center" >
 						<h3><c:out value="${msg}"/></h3>
 					</div>
 					</br>
 					<div>
+					
+					
 						<table id="sales_table" border="0" cellpadding="5" style="width:100%" >
 							<caption>
 								<h2>My Sales</h2>
@@ -113,8 +111,7 @@
 							</c:forEach>
 						</table>
 					</div>
-				</c:otherwise>
-			</c:choose>
+
 		</div>
 	</body>
 </html>

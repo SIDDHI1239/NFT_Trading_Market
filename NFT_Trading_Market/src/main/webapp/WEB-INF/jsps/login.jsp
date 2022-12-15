@@ -43,7 +43,7 @@
 						    <td colspan="2"><input type="submit" value="Login" /></td>
 						</tr>
 						<tr>
-						    <td colspan="2" id="text">New user? <a href="registerUser">Register</a> &nbsp;|&nbsp; <a href="googleLogin">Login with Google</a></td>
+						    <td colspan="2" id="text">New user? <a href="/registerUser">Register</a> &nbsp;|&nbsp; <a href="/googleLogin">Login with Google</a></td>
 						</tr>
 						<tr>
 						    <td colspan="2" id="error">${msg}</td>

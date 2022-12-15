@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<div align="right">
-			<a href="/profile">Back to Profile</a> | <a href="/logout">Logout</a>
+			<a href="/profile">Back to Profile</a> | <a href="/logout" onclick="return confirm('Do you want to logout?');">Logout</a>
 		</div>
 		<br>
 		<div align="center">
